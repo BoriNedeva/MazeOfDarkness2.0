@@ -4,12 +4,7 @@ import cards.*;
 
 public class FightBox extends Box{
 
-	public void randomIdx() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public ICard getWildCard() {
+	/*public ICard getWildCard() {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -23,7 +18,5 @@ public class FightBox extends Box{
 	public void addBoxCoords(Coordinates coords) {
 		// TODO Auto-generated method stub
 		
-	}
-	
-
+	}*/
 }

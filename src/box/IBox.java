@@ -1,15 +1,19 @@
 package box;
 
+import java.util.ArrayList;
+
 import game.Coordinates;
 import cards.ICard;
 
 interface IBox {
-	public void randomIdx();
 
-	ICard getWildCard();
+	ICard giveRandomWildCard();
 
-	ICard getDespicableCard();
+	ICard giveRandomDespicableCard();
 	
 	void addBoxCoords(Coordinates coords);
 	
+	ArrayList<ICard> getWildCards();
+	
+	ArrayList<ICard> getDespicableCards();
 }

@@ -3,6 +3,7 @@ package box;
 import game.Coordinates;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import cards.DespicableCard;
 import cards.ICard;
@@ -38,6 +39,18 @@ public abstract class Box implements IBox {
 
 	public void addBoxCoords(Coordinates coord) {
 		boxCoords.add(coord);
+	}
+	
+	public ICard giveRandomWildCard(){
+		Random rnd = new Random();
+		int randomCard = rnd.nextInt(this.wildCards.size() + 1);
+		return this.wildCards.get(randomCard);
+	}
+	
+	public ICard giveRandomDespicableCard(){
+		Random rnd = new Random();
+		int randomCard = rnd.nextInt(this.wildCards.size() + 1);
+		return this.despicableCards.get(randomCard);
 	}
 }
 

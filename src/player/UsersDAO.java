@@ -21,7 +21,7 @@ public class UsersDAO {
 		this.jdbc = new JdbcTemplate(dataSource);
 	}
 	
-	public List<User> getUsers(){
+	/*public List<User> getUsers(){
 		return this.jdbc.query("SELECT * FROM `users` AS users LEFT JOIN `userstatistics` AS stat on users.username=stat.user", new RowMapper<User>(){
 
 			@Override
@@ -39,7 +39,7 @@ public class UsersDAO {
 			}
 			
 		});
-	} //nqma da ni trqbva sigurno
+	} *///nqma da ni trqbva sigurno
 	
 	public User getLoggedUser(String username)
 	{

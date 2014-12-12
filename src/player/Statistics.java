@@ -3,6 +3,7 @@ package player;
 public class Statistics {
 	private int level;
 	private int highScore;
+	private int wins;
 	
 	@Override
 	public String toString() {
@@ -27,5 +28,4 @@ public class Statistics {
 	public void setWins(int wins) {
 		this.wins = wins;
 	}
-	private int wins;
 }

@@ -1,6 +1,5 @@
 package game;
 
-import java.lang.reflect.Field;
 import java.util.*;
 
 public class Maze {
@@ -11,6 +10,7 @@ public class Maze {
 	private static final char PATH = ' '; // indicates a path in the maze
 	private static final char PLAYERONE = '1'; //  player one
 	private static final char PLAYERTWO = '2'; // player two
+	
 	
 	
 	private int rows; // number of rows in the representative feild
@@ -32,6 +32,18 @@ public class Maze {
 																		 */
 
 	private char[][] field; // representative feild of the maze
+
+	public Coordinates getCoordinateOfPlayerOne() {
+		return coordinateOfPlayerOne;
+	}
+
+	public Coordinates getCoordinateOfPlayerTwo() {
+		return coordinateOfPlayerTwo;
+	}
+
+	private Coordinates coordinateOfPlayerOne;
+
+	private Coordinates coordinateOfPlayerTwo;
 
 	public Maze(int nRows, int nCols) {
 		act_cols = nCols;
@@ -353,7 +365,9 @@ public class Maze {
 		// clear the location
 		//field[entrance_row][0] = PATH;
 		field[entrance_row][0] = PLAYERONE;
+		coordinateOfPlayerOne= new Coordinates(entrance_row, 0);
 		field[exit_row][cols - 1] = PLAYERTWO;
+		coordinateOfPlayerTwo = new Coordinates(exit_row, cols-1);
 
 	}
 

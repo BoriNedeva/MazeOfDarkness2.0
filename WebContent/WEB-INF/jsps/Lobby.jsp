@@ -8,5 +8,8 @@
 </head>
 <body>
 <h1>Welcome to lobby!</h1>
+<h2><%= session.getAttribute("user") %></h2>
+<h2><%= session.getAttribute("username") %></h2>
+
 </body>
 </html>

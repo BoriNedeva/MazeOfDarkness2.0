@@ -9,8 +9,8 @@ public class FightPlayer extends Player {
 	private int health;
 	boolean hasKnife;
 		
-	public FightPlayer(final String userName) {
-		super(userName);
+	public FightPlayer(final String userName, final User user) {
+		super(userName, user);
 		this.health = 100;
 		this.hasKnife = false;
 	}

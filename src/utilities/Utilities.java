@@ -10,7 +10,7 @@ import player.UsersDAO;
 
 public class Utilities {
 	
-	public static List<User> getListOfAllUsers()
+	/*public static List<User> getListOfAllUsers()
 	{
 		ApplicationContext context = new ClassPathXmlApplicationContext("Beans.xml");
 		UsersDAO usersDao = context.getBean("usersDAO", UsersDAO.class);
@@ -29,7 +29,7 @@ public class Utilities {
 			}
 		}
 		return loggedUser;
-	}
+	}*/
 	
 	public static User getdaoUser(String username)
 	{

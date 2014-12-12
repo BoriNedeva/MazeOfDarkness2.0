@@ -7,6 +7,12 @@ public abstract class Player implements IPlayer {
 	private int flashLight;
 
 	private Coordinates coords;
+	
+	private String userName;
+
+	private int score;
+	
+	private User user;
 
 	public void setFlashLight(int flashLight) {
 		this.flashLight = flashLight;
@@ -20,15 +26,12 @@ public abstract class Player implements IPlayer {
 		this.score = score;
 	}
 
-	private String userName;
-
-	private int score;
-
-	Player(final String userName) {
+	Player(final String userName, final User user) {
 
 		this.userName = userName;
 		this.score = 0;
 		this.flashLight = 1;
+		this.user = user;
 	}
 
 	public int getFlashLight() {
@@ -47,4 +50,16 @@ public abstract class Player implements IPlayer {
 		return score;
 	}
 
+	public void moveRight(){
+		getCoords().setY((getCoords().getY()+1));
+	}
+	public void moveLeft(){
+		getCoords().setY((getCoords().getY()-1));
+	}
+	public void moveUp(){
+		getCoords().setX(getCoords().getX()-1);
+	}
+	public void moveDown(){
+		getCoords().setX(getCoords().getX()+1);
+	}
 }
