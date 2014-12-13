@@ -1,5 +1,8 @@
 package controllers;
 
+import java.util.ArrayList;
+
+import game.Coordinates;
 import game.Game;
 import game.Maze;
 
@@ -12,6 +15,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import player.FightPlayer;
 import player.Player;
 import box.Box;
 import box.FightBox;
@@ -28,8 +32,16 @@ public class HelloController {
 		int x = p.getCoords().getX() - 1;
 		int y = p.getCoords().getY();
 		try {
-			if (currentGame.getMaze().getMaze()[x][y] == ' ')
+			if (currentGame.getMaze().getMaze()[x][y] == ' '){
 				p.moveUp();
+				if(currentGame.checkForBox(p.getCoords())){
+					session.setAttribute("Box", true);
+					System.out.println(true);
+				}
+				else System.out.println(false);
+			}
+				
+			
 		} catch (IndexOutOfBoundsException e) {
 
 		}
@@ -50,6 +62,12 @@ public class HelloController {
 		try {
 			if (currentGame.getMaze().getMaze()[x][y] == ' ')
 				p.moveLeft();
+			if(currentGame.checkForBox(p.getCoords())){
+				session.setAttribute("Box", true);
+				System.out.println(true);
+			}
+			else System.out.println(false);
+		
 		} catch (IndexOutOfBoundsException e) {
 
 		}
@@ -71,6 +89,12 @@ public class HelloController {
 		try {
 			if (currentGame.getMaze().getMaze()[x][y] == ' ')
 				p.moveDown();
+			if(currentGame.checkForBox(p.getCoords())){
+				session.setAttribute("Box", true);
+				System.out.println(true);
+			}
+			else System.out.println(false);
+		
 		} catch (IndexOutOfBoundsException e) {
 
 		}
@@ -91,6 +115,12 @@ public class HelloController {
 		try {
 			if (currentGame.getMaze().getMaze()[x][y] == ' ')
 				p.moveRight();
+			if(currentGame.checkForBox(p.getCoords())){
+				session.setAttribute("Box", true);
+				System.out.println(true);
+			}
+			else System.out.println(false);
+		
 		} catch (IndexOutOfBoundsException e) {
 
 		}
@@ -115,6 +145,7 @@ public class HelloController {
 		p2.setCoords(m.getCoordinateOfPlayerTwo());
 
 		Game game = new Game(p1, p2, box, m);
+		game.placeBoxes();
 		session1.setAttribute("game", game);
 		session1.setAttribute("player1", p1);
 		session2.setAttribute("game", game);
@@ -124,6 +155,8 @@ public class HelloController {
 		map.addAttribute("show", show);
 		session1.setAttribute("show", show);
 		session2.setAttribute("show", show);
+		session1.setAttribute("Box", false);
+		session2.setAttribute("Box", false);
 
 		return "DisplayMaze";
 	}
@@ -138,16 +171,16 @@ public class HelloController {
 				sb.append("<td>");
 				if (i == game.getPlayerOne().getCoords().getX()
 						&& j == game.getPlayerOne().getCoords().getY()) {
-					sb.append(" <img src=\"img\\player.png\" alt=\"Player 1\" height=\"42\" width=\"42\"> ");
+					sb.append(" <img src=\"img\\player2.jpg\" alt=\"Player 1\" height=\"42\" width=\"42\"> ");
 				} else if (i == game.getPlayerTwo().getCoords().getX()
 						&& j == game.getPlayerTwo().getCoords().getY()) {
 					sb.append("<img src=\"img\\player2.gif\" alt=\"Player 2\" height=\"42\" width=\"42\">");
 				}
-				// else if(checkBox(game,i,j)){
-
-				// }
+				 else if(game.checkForBox(new Coordinates(i, j))){
+					 sb.append("<img src=\"img\\box.jpg\" alt=\"Obstacle\" height=\"42\" width=\"42\">");
+				 }
 				else if (maze[i][j] == '#')
-					sb.append("<img src = \"img\\obstacle.gif\" alt=\"Obstacle\" height=\"42\" width=\"42\">");
+					sb.append("<img src=\"img\\obstacle.gif\" alt=\"Obstacle\" height=\"42\" width=\"42\">");
 				else
 					sb.append("<img src=\"img\\road.gif\" alt=\"Road\" height=\"42\" width=\"42\">");
 				sb.append("</td>");
@@ -164,11 +197,12 @@ public class HelloController {
 	}
 	
 	
-	// private boolean checkBox(Game game,int x,int y) {
-	// ArrayList<Coordinates> boxCoords = game.getBox().getBoxCoords();
-	// for (int i = 0; i < boxCoords.size(); i++) {
-	// if(boxCoords.get(i).getX()==x && boxCoor)
-	// }
-	// return false;
-	// }
+//	 private boolean checkBox(Game game,int x,int y) {
+//		 ArrayList<Coordinates> boxCoords = game.getBox().getBoxCoords();
+//		 for (int i = 0; i < boxCoords.size(); i++) {
+//			 if(boxCoords.get(i).getX()==x && boxCoords.get(i).getY()==y)
+//				 return true;
+//		 }
+//		 return false;
+//	 }
 }
