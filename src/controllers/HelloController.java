@@ -45,7 +45,7 @@ public class HelloController {
 		} catch (IndexOutOfBoundsException e) {
 
 		}
-		String show = displayGame(currentGame);
+		String show = displayGame(currentGame,p);
 		map.addAttribute("show", show);
 		session.setAttribute("show", show);
 		return "DisplayMaze";
@@ -71,7 +71,7 @@ public class HelloController {
 		} catch (IndexOutOfBoundsException e) {
 
 		}
-		String show = displayGame(currentGame);
+		String show = displayGame(currentGame,p);
 		map.addAttribute("show", show);
 		session.setAttribute("show", show);
 
@@ -98,7 +98,7 @@ public class HelloController {
 		} catch (IndexOutOfBoundsException e) {
 
 		}
-		String show = displayGame(currentGame);
+		String show = displayGame(currentGame,p);
 		map.addAttribute("show", show);
 		session.setAttribute("show", show);
 		return "DisplayMaze";
@@ -124,7 +124,7 @@ public class HelloController {
 		} catch (IndexOutOfBoundsException e) {
 
 		}
-		String show = displayGame(currentGame);
+		String show = displayGame(currentGame,p);
 		map.addAttribute("show", show);
 		session.setAttribute("show", show);
 		return "DisplayMaze";
@@ -151,7 +151,7 @@ public class HelloController {
 		session2.setAttribute("game", game);
 		session2.setAttribute("startGame", true);
 
-		String show = displayGame(game);
+		String show = displayGame(game,p1);
 		map.addAttribute("show", show);
 		session1.setAttribute("show", show);
 		session2.setAttribute("show", show);
@@ -161,7 +161,7 @@ public class HelloController {
 		return "DisplayMaze";
 	}
 
-	private String displayGame(Game game) {
+	private String displayGame(Game game,Player p) {
 		StringBuilder sb = new StringBuilder();
 		char[][] maze = game.getMaze().getMaze();
 		sb.append("<table>");
@@ -179,10 +179,12 @@ public class HelloController {
 				 else if(game.checkForBox(new Coordinates(i, j))){
 					 sb.append("<img src=\"img\\box.jpg\" alt=\"Obstacle\" height=\"42\" width=\"42\">");
 				 }
-				else if (maze[i][j] == '#')
+				else if (maze[i][j] == '#' && (game.isLight(p, new Coordinates(i, j))))
 					sb.append("<img src=\"img\\obstacle.gif\" alt=\"Obstacle\" height=\"42\" width=\"42\">");
-				else
+				else if((game.isLight(p, new Coordinates(i, j))))
 					sb.append("<img src=\"img\\road.gif\" alt=\"Road\" height=\"42\" width=\"42\">");
+				else
+					sb.append("<img src=\"img\\black.jpg\" alt=\"Road\" height=\"42\" width=\"42\">");
 				sb.append("</td>");
 			}
 			sb.append("</tr>");
