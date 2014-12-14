@@ -1,6 +1,4 @@
-package lobby;
-
-import java.util.HashMap;
+package lobby;import java.util.HashMap;
 
 import javax.servlet.http.HttpSession;
 
@@ -31,8 +29,8 @@ public class Lobby {
 	}
 
 	public synchronized void removeUser(String user, HttpSession session) {
-		if(!onlineUsers.containsKey(user)){
-			onlineUsers.remove(user);
+		if(onlineUsers.containsKey(user)){
+			onlineUsers.remove(user, session);
 		}
 	}
 
