@@ -5,7 +5,7 @@ import player.IPlayer;
 
 public class IncreaseHealth extends WildCard{
 
-	private static final int HEALTH_BONUS = 25;
+	private static final int HEALTH_BONUS = 15;
 	
 	public IncreaseHealth(String info) {
 		super(info);

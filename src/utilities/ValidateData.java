@@ -1,56 +1,31 @@
 package utilities;
 
 import java.util.List;
+import java.util.regex.Pattern;
+
+import jdk.nashorn.internal.runtime.regexp.joni.Regex;
 import player.User;
 
 public class ValidateData {
 	
-	public static boolean checkUsernameInDB(String username, List<User> users)
-	{
-		boolean isRegistered = false;
-		for(User user : users)
-		  {
-			 if(user.getUsername().equals(username)){
-				 isRegistered = true;
-				 break;
-			 }
-		  }
-		
-		return isRegistered;
-	}
-	
-	public static boolean checkPasswordInDB(String password, String username, List<User> users)
-	{
-		boolean isRightPassword = false;
-		for(User user : users)
-		  {
-			 if(user.getUsername().equals(username) && user.getPassword().equals(password)){
-				 isRightPassword = true;
-				 break;
-			 }
-		  }
-		
-		return isRightPassword;
-	}
-	
 	public static boolean validateUsername(String username)
 	{
-		return false;
+		return username.matches("^[a-zA-Z]([._-]?[a-zA-Z0-9]+){3,20}$");
 	}
 	
 	public static boolean validatePassword(String password)
 	{
-		return false;
+		return password.matches("((?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{6,32})");
 	}
 	
 	public static boolean validateEmail(String email)
 	{
-		return false;
+		return email.matches("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,}).{,255}$");
 	}
 	
-	public static boolean validateConfirmation(String confirmedPassword)
+	public static boolean validateConfirmation(String password, String confirmedPassword)
 	{
-		return false;
+		return password.equals(confirmedPassword);
 	}
 	
 	public static boolean validateNotEmpty(String input)

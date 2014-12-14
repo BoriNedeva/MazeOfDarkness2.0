@@ -32,20 +32,12 @@ public class HelloController {
 		int x = p.getCoords().getX() - 1;
 		int y = p.getCoords().getY();
 		try {
-			if (currentGame.getMaze().getMaze()[x][y] == ' '){
+			if (currentGame.getMaze().getMaze()[x][y] == ' ')
 				p.moveUp();
-				if(currentGame.checkForBox(p.getCoords())){
-					session.setAttribute("Box", true);
-					System.out.println(true);
-				}
-				else System.out.println(false);
-			}
-				
-			
 		} catch (IndexOutOfBoundsException e) {
 
 		}
-		String show = displayGame(currentGame,p);
+		String show = displayGame(currentGame);
 		map.addAttribute("show", show);
 		session.setAttribute("show", show);
 		return "DisplayMaze";
@@ -62,16 +54,10 @@ public class HelloController {
 		try {
 			if (currentGame.getMaze().getMaze()[x][y] == ' ')
 				p.moveLeft();
-			if(currentGame.checkForBox(p.getCoords())){
-				session.setAttribute("Box", true);
-				System.out.println(true);
-			}
-			else System.out.println(false);
-		
 		} catch (IndexOutOfBoundsException e) {
 
 		}
-		String show = displayGame(currentGame,p);
+		String show = displayGame(currentGame);
 		map.addAttribute("show", show);
 		session.setAttribute("show", show);
 
@@ -89,16 +75,10 @@ public class HelloController {
 		try {
 			if (currentGame.getMaze().getMaze()[x][y] == ' ')
 				p.moveDown();
-			if(currentGame.checkForBox(p.getCoords())){
-				session.setAttribute("Box", true);
-				System.out.println(true);
-			}
-			else System.out.println(false);
-		
 		} catch (IndexOutOfBoundsException e) {
 
 		}
-		String show = displayGame(currentGame,p);
+		String show = displayGame(currentGame);
 		map.addAttribute("show", show);
 		session.setAttribute("show", show);
 		return "DisplayMaze";
@@ -115,16 +95,10 @@ public class HelloController {
 		try {
 			if (currentGame.getMaze().getMaze()[x][y] == ' ')
 				p.moveRight();
-			if(currentGame.checkForBox(p.getCoords())){
-				session.setAttribute("Box", true);
-				System.out.println(true);
-			}
-			else System.out.println(false);
-		
 		} catch (IndexOutOfBoundsException e) {
 
 		}
-		String show = displayGame(currentGame,p);
+		String show = displayGame(currentGame);
 		map.addAttribute("show", show);
 		session.setAttribute("show", show);
 		return "DisplayMaze";
@@ -151,17 +125,15 @@ public class HelloController {
 		session2.setAttribute("game", game);
 		session2.setAttribute("startGame", true);
 
-		String show = displayGame(game,p1);
+		String show = displayGame(game);
 		map.addAttribute("show", show);
 		session1.setAttribute("show", show);
 		session2.setAttribute("show", show);
-		session1.setAttribute("Box", false);
-		session2.setAttribute("Box", false);
 
 		return "DisplayMaze";
 	}
 
-	private String displayGame(Game game,Player p) {
+	private String displayGame(Game game) {
 		StringBuilder sb = new StringBuilder();
 		char[][] maze = game.getMaze().getMaze();
 		sb.append("<table>");
@@ -176,15 +148,13 @@ public class HelloController {
 						&& j == game.getPlayerTwo().getCoords().getY()) {
 					sb.append("<img src=\"img\\player2.gif\" alt=\"Player 2\" height=\"42\" width=\"42\">");
 				}
-				 else if(game.checkForBox(new Coordinates(i, j))){
+				 else if(checkBox(game,i,j)){
 					 sb.append("<img src=\"img\\box.jpg\" alt=\"Obstacle\" height=\"42\" width=\"42\">");
 				 }
-				else if (maze[i][j] == '#' && (game.isLight(p, new Coordinates(i, j))))
+				else if (maze[i][j] == '#')
 					sb.append("<img src=\"img\\obstacle.gif\" alt=\"Obstacle\" height=\"42\" width=\"42\">");
-				else if((game.isLight(p, new Coordinates(i, j))))
-					sb.append("<img src=\"img\\road.gif\" alt=\"Road\" height=\"42\" width=\"42\">");
 				else
-					sb.append("<img src=\"img\\black.jpg\" alt=\"Road\" height=\"42\" width=\"42\">");
+					sb.append("<img src=\"img\\road.gif\" alt=\"Road\" height=\"42\" width=\"42\">");
 				sb.append("</td>");
 			}
 			sb.append("</tr>");
@@ -199,12 +169,12 @@ public class HelloController {
 	}
 	
 	
-//	 private boolean checkBox(Game game,int x,int y) {
-//		 ArrayList<Coordinates> boxCoords = game.getBox().getBoxCoords();
-//		 for (int i = 0; i < boxCoords.size(); i++) {
-//			 if(boxCoords.get(i).getX()==x && boxCoords.get(i).getY()==y)
-//				 return true;
-//		 }
-//		 return false;
-//	 }
+	 private boolean checkBox(Game game,int x,int y) {
+		 ArrayList<Coordinates> boxCoords = game.getBox().getBoxCoords();
+		 for (int i = 0; i < boxCoords.size(); i++) {
+			 if(boxCoords.get(i).getX()==x && boxCoords.get(i).getY()==y)
+				 return true;
+		 }
+		 return false;
+	 }
 }

@@ -6,18 +6,12 @@ public class User {
 	private String email;
 	private Statistics statistics;
 	
-	
-	public Statistics getStatistics() {
-		return statistics;
-	}
-	public void setStatistics(Statistics statistics) {
-		this.statistics = statistics;
-	}
 	@Override
 	public String toString() {
 		return "User [username=" + username + ", password=" + password
 				+ ", email=" + email + ", statistics=" + statistics + "]";
 	}
+	
 	public String getUsername() {
 		return username;
 	}
@@ -35,5 +29,12 @@ public class User {
 	}
 	public void setEmail(String email) {
 		this.email = email;
+	}
+	
+	public Statistics getStatistics() {
+		return statistics;
+	}
+	public void setStatistics(Statistics statistics) {
+		this.statistics = statistics;
 	}
 }

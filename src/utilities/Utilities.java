@@ -31,7 +31,7 @@ public class Utilities {
 		return loggedUser;
 	}*/
 	
-	public static User getdaoUser(String username)
+	/*public static User getdaoUser(String username)
 	{
 		ApplicationContext context = new ClassPathXmlApplicationContext("Beans.xml");
 		UsersDAO usersDao = context.getBean("usersDAO", UsersDAO.class);
@@ -50,5 +50,7 @@ public class Utilities {
 		ApplicationContext context = new ClassPathXmlApplicationContext("Beans.xml");
 		UsersDAO usersDao = context.getBean("usersDAO", UsersDAO.class);
 		return usersDao.checkPasswordInDB(username, password);
-	}
+	}*/
+	
+	
 }

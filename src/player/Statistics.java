@@ -1,6 +1,10 @@
 package player;
 
 public class Statistics {
+	
+	public static final int WINS_TO_LEVEL_UP = 3;
+	public static final int MAX_LEVEL = 100;
+	
 	private int level;
 	private int highScore;
 	private int wins;

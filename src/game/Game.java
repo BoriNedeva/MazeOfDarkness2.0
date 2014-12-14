@@ -6,10 +6,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
 import cards.ICard;
 import cards.UniqueCard;
+import player.FightPlayer;
 import player.IPlayer;
 import player.Player;
+import player.UsersDAO;
 import box.Box;
 import box.FightBox;
 
@@ -57,23 +62,34 @@ public  class Game implements IGame {
 		
 	}
 	
-	public void openBox(HttpServletRequest choice, HttpSession session)//not finished
+	public String executeWildCard(IPlayer player)
 	{
-		switch(choice.getParameter("choice")){
-		case "wild": {
 			ICard card = this.box.giveRandomWildCard();
-			card.execute((IPlayer)session.getAttribute("player1"));
+			card.execute(player);
 			if(card instanceof UniqueCard){
 				this.box.getWildCards().remove(card);
 			}
-			break;
+			if(player.getCoords().equals(this.playerOne.getCoords()))
+			{
+				this.box.getBoxCoords().remove(this.playerOne.getCoords());
+			}
+			else{
+				this.box.getBoxCoords().remove(this.playerTwo.getCoords());
 		}
-		case "despicable": {
+			return card.getCardInfo();
+	}
+	public String executeDespicableCard(IPlayer player)
+	{
 			ICard card = this.box.giveRandomDespicableCard() ;
-			card.execute((IPlayer)session.getAttribute("player2"));
-			break;
+			card.execute(player);
+			if(player.getCoords().equals(this.playerOne.getCoords()))
+			{
+				this.box.getBoxCoords().remove(this.playerOne.getCoords());
+			}
+			else{
+				this.box.getBoxCoords().remove(this.playerTwo.getCoords());
 		}
-		}
+			return card.getCardInfo();
 	}
 	
 	public Maze getMaze() {
@@ -88,5 +104,18 @@ public  class Game implements IGame {
 	public Player getPlayerTwo() {
 		
 		return playerTwo;
+	}
+
+	public Box getBox() {
+		// TODO Auto-generated method stub
+		return this.box;
+	}
+
+	@Override
+	public void endGame() {
+		ApplicationContext context = new ClassPathXmlApplicationContext("Beans.xml");
+		UsersDAO usersDao = context.getBean("usersDAO", UsersDAO.class);
+		usersDao.updateStatistics(this.playerOne);
+		usersDao.updateStatistics(this.playerTwo);
 	}
 }

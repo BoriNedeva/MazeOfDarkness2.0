@@ -6,7 +6,6 @@ public class ShowWholeMap extends UniqueCard{
 
 	public ShowWholeMap(String info) {
 		super(info);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override

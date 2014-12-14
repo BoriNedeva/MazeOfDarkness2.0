@@ -15,7 +15,7 @@ public abstract class Box implements IBox {
 
 	private ArrayList<ICard> despicableCards;
 	
-	private ArrayList<Coordinates> boxCoords;
+	private ArrayList<Coordinates> boxCoords = new ArrayList<Coordinates>();
 
 	public ArrayList<Coordinates> getBoxCoords() {
 		return boxCoords;
@@ -43,13 +43,13 @@ public abstract class Box implements IBox {
 	
 	public ICard giveRandomWildCard(){
 		Random rnd = new Random();
-		int randomCard = rnd.nextInt(this.wildCards.size() + 1);
+		int randomCard = rnd.nextInt(this.wildCards.size());
 		return this.wildCards.get(randomCard);
 	}
 	
 	public ICard giveRandomDespicableCard(){
 		Random rnd = new Random();
-		int randomCard = rnd.nextInt(this.wildCards.size() + 1);
+		int randomCard = rnd.nextInt(this.despicableCards.size());
 		return this.despicableCards.get(randomCard);
 	}
 }

@@ -13,6 +13,17 @@ public abstract class Player implements IPlayer {
 	private int score;
 	
 	private User user;
+	
+	private boolean hasWon;
+	
+	Player(final String userName, final User user) {
+
+		this.userName = userName;
+		this.score = 0;
+		this.flashLight = 1;
+		this.hasWon = false;
+		this.user = user;
+	}
 
 	public void setFlashLight(int flashLight) {
 		this.flashLight = flashLight;
@@ -26,12 +37,16 @@ public abstract class Player implements IPlayer {
 		this.score = score;
 	}
 
-	Player(final String userName, final User user) {
+	public boolean isHasWon() {
+		return hasWon;
+	}
 
-		this.userName = userName;
-		this.score = 0;
-		this.flashLight = 1;
-		this.user = user;
+	public void setHasWon(boolean hasWon) {
+		this.hasWon = hasWon;
+	}
+
+	public User getUser() {
+		return user;
 	}
 
 	public int getFlashLight() {
@@ -50,16 +65,9 @@ public abstract class Player implements IPlayer {
 		return score;
 	}
 
-	public void moveRight(){
-		getCoords().setY((getCoords().getY()+1));
-	}
-	public void moveLeft(){
-		getCoords().setY((getCoords().getY()-1));
-	}
-	public void moveUp(){
-		getCoords().setX(getCoords().getX()-1);
-	}
-	public void moveDown(){
-		getCoords().setX(getCoords().getX()+1);
+	public void move(int x, int y)
+	{
+		coords.setX(x);
+		coords.setY(y);
 	}
 }

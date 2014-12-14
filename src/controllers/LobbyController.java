@@ -78,7 +78,7 @@ public class LobbyController {
 			//Coordinates coorP1 = new Coordinates(0, 0);
 			//Coordinates coorP2 = new Coordinates(0, 0);
 			Player p1 = new FightPlayer((String)session.getAttribute("username"),(User)session.getAttribute("user"));
-			Player p2 = new FightPlayer((String)sessionOpponent.getAttribute("username"), (User)sessionOpponent.getAttribute("user"));;
+			Player p2 = new FightPlayer((String)sessionOpponent.getAttribute("username"), (User)sessionOpponent.getAttribute("user"));
 			session.setAttribute("player1", p1);
 			session.setAttribute("player2", p2);
 			sessionOpponent.setAttribute("player1", p2);
