@@ -14,7 +14,8 @@ public class ValidateData {
 	
 	public static boolean validateEmail(String email)
 	{
-		return email.matches("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,}).{,255}$");
+		//return email.matches("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,}).{,255}$");
+		return email.matches("^[(a-zA-Z-0-9-\\_\\+\\.)]+@[(a-z-A-z)]+\\.[(a-zA-z)]{2,3}$");
 	}
 	
 	public static boolean validateConfirmation(String password, String confirmedPassword)

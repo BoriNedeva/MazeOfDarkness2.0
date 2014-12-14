@@ -34,7 +34,7 @@ public class FightPlayer extends Player {
 	}
 
 	public void setNumberOfMoves(int numberOfMoves) {
-			this.numberOfMoves = numberOfMoves;
+			this.numberOfMoves += numberOfMoves;
 	}
 
 	public int getHealth() {

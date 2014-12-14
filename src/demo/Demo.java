@@ -11,7 +11,6 @@ import player.Player;
 import player.Statistics;
 import player.User;
 import player.UsersDAO;
-import utilities.Utilities;
 import utilities.ValidateData;
 import cards.*;
 import box.*;
@@ -76,8 +75,19 @@ public class Demo {
 //		System.out.println(ValidateData.validateUsername("lala..bori"));
 //		System.out.println(ValidateData.validateUsername("lala56bori_5"));
 		
-		System.out.println(usersDao.checkEmailInDB("bori@gmail.com"));
-		System.out.println(usersDao.checkEmailInDB("bori1@gmail.com"));
+		//System.out.println(usersDao.checkEmailInDB("bori@gmail.com"));
+		//System.out.println(usersDao.checkEmailInDB("bori1@gmail.com"));
+		
+//		System.out.println(ValidateData.validateEmail("bori@gmail.com"));
+//		System.out.println(ValidateData.validateEmail("bori@.hdkajhkjhdks"));
+//		System.out.println(ValidateData.validateEmail("bor"));
+//		System.out.println(ValidateData.validateEmail("bori.hdkajhkjhdks"));
+//		System.out.println(ValidateData.validateEmail("555565646d5s4"));
+		
+		System.out.println(usersDao.checkForgottenPass("bori", "bori@gmail.com"));
+		System.out.println(usersDao.checkForgottenPass("bori", "bori@gml.com"));
+		System.out.println(usersDao.checkForgottenPass("bi", "bori@gmail.com"));
+		System.out.println(usersDao.checkForgottenPass("bori", "halil@mail.com"));
 	}
 
 }

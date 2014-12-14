@@ -1,7 +1,5 @@
 package controllers;
 
-import java.util.ArrayList;
-
 import game.Coordinates;
 import game.Game;
 import game.Maze;
@@ -55,6 +53,12 @@ public class HelloController {
 			try {
 				if (currentGame.getMaze().getMaze()[x][y] == ' ')
 					p.move(x,y);
+					if(currentGame.checkIfPlayerCanKill()){
+						Player winner = currentGame.checkForWinner();
+						session.setAttribute("winner", winner);
+						currentGame.endGame();
+					}
+					
 				if(currentGame.checkForBox(p.getCoords())){
 					session.setAttribute("Box", true);
 					System.out.println(true);
@@ -72,10 +76,10 @@ public class HelloController {
 			if(p.getNumberOfMoves()==1){
 				FightPlayer p2 = (FightPlayer)session.getAttribute("player2");
 				p2.setNumberOfMoves(6);
-				p.setNumberOfMoves(0);
+				p.setNumberOfMoves(-1);
 				return"DisplayUnactiveMaze";
 			}else
-				p.setNumberOfMoves(p.getNumberOfMoves()-1);
+				p.setNumberOfMoves(-1);
 			return "DisplayMaze";
 		}else{
 			return "DisplayUnactiveMaze";
@@ -83,14 +87,29 @@ public class HelloController {
 		
 		
 	}
-	@RequestMapping(value = "/wild", method = RequestMethod.GET)
-	public String move(HttpServletRequest request,ModelMap map){
+	@RequestMapping(value = "/win", method = RequestMethod.GET)
+	public String win(@RequestParam String card,HttpServletRequest request,ModelMap map){
+	
+		return "win";
+	}
+	@RequestMapping(value = "/card", method = RequestMethod.GET)
+	public String getCard(@RequestParam String card,HttpServletRequest request,ModelMap map){
 		HttpSession  session = request.getSession();
 		Game game = (Game)session.getAttribute("game");
 		FightPlayer p = (FightPlayer)session.getAttribute("player1");
 		
 		System.out.println(p);
-		String cardInfo = game.executeWildCard(p);
+		String cardInfo ="";
+		if(p.getNumberOfMoves()>0 && p.getNumberOfMoves() <6){	
+		switch(card){
+		case "wild":
+			 cardInfo = game.executeWildCard(p);
+			break;
+		case "despicable":
+			cardInfo = game.executeDespicableCard(p);
+			session.setAttribute("winner", game.checkForWinner());
+			}
+		}
 		p.toString();
 		session.setAttribute("card",cardInfo);
 		String show = displayGame(game,p);
@@ -99,16 +118,17 @@ public class HelloController {
 			if(p.getNumberOfMoves()==1){
 				FightPlayer p2 = (FightPlayer)session.getAttribute("player2");
 				p2.setNumberOfMoves(6);
-				p.setNumberOfMoves(0);
+				p.setNumberOfMoves(-1);
 				return"DisplayUnactiveMaze";
 			}else
-				p.setNumberOfMoves((p.getNumberOfMoves()-1));
+				p.setNumberOfMoves(-1);
 			return "DisplayMaze";
 		}else{
 			return "DisplayUnactiveMaze";
 		}
 		
 	}
+	
 	@RequestMapping(value = "/start", method = RequestMethod.GET)
 	public String StartGame(HttpServletRequest request,
 			HttpServletResponse response, ModelMap map) {
@@ -124,7 +144,7 @@ public class HelloController {
 		p2.setFlashLight(1);
 		p1.setCoords(m.getCoordinateOfPlayerOne());
 		p2.setCoords(m.getCoordinateOfPlayerTwo());
-		((FightPlayer)p1).setNumberOfMoves(6);		
+		((FightPlayer)p1).setNumberOfMoves(5);		
 		((FightPlayer)p2).setNumberOfMoves(0);
 		Game game = new Game(p1, p2, box, m);
 		game.placeBoxes();
@@ -145,7 +165,7 @@ public class HelloController {
 	private String displayGame(Game game,Player p) {
 		StringBuilder sb = new StringBuilder();
 		char[][] maze = game.getMaze().getMaze();
-		sb.append("<table>");
+		sb.append("<div><table style=\"float: left\">");
 		for (int i = 0; i < maze.length; i++) {
 			sb.append("<tr>");
 			for (int j = 0; j < maze[i].length; j++) {
@@ -178,5 +198,15 @@ public class HelloController {
 	public String displayMaze(){
 		return "DisplayMaze";
 	}
+	@RequestMapping(value = "/displayUnactive", method = RequestMethod.GET)
+	public String displayUnactiveMaze(HttpServletRequest request){
+		HttpSession session = request.getSession();
+		FightPlayer p = (FightPlayer)session.getAttribute("player1");
+		Game game = (Game)session.getAttribute("game");
+		String show = displayGame(game,p);
+		session.setAttribute("show", show);
+		return "DisplayUnactiveMaze";
+	}
+	
 	
 }

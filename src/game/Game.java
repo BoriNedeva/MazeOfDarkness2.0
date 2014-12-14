@@ -7,6 +7,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import cards.ICard;
 import cards.UniqueCard;
+import player.FightPlayer;
 import player.IPlayer;
 import player.Player;
 import player.UsersDAO;
@@ -132,4 +133,34 @@ public  class Game implements IGame {
 		usersDao.updateStatistics(this.playerOne);
 		usersDao.updateStatistics(this.playerTwo);
 	}
+	
+	public boolean checkIfPlayerCanKill()
+	{
+		if(playerOne.getCoords().equals(playerTwo.getCoords()))
+		{
+			if(((FightPlayer)playerOne).isHasKnife())
+			{
+				((FightPlayer)playerTwo).setHealth(0);
+				return true;
+			}
+			else if(((FightPlayer)playerTwo).isHasKnife())
+			{
+				((FightPlayer)playerOne).setHealth(0);
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public Player checkForWinner() {
+		if (((FightPlayer)playerOne).getHealth() == 0) {
+			playerTwo.setHasWon(true);
+			return playerTwo;
+		} else if (((FightPlayer)playerTwo).getHealth() == 0) {
+			playerOne.setHasWon(true);
+			return playerOne;
+		} else {
+			return null;
+		}
+	}	
 }
