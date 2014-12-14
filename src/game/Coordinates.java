@@ -4,7 +4,7 @@ public class Coordinates {
 	private int x;
 	private int y;
 	
-	Coordinates(final int x, final int y){
+	public Coordinates(final int x, final int y){
 		setX(x);
 		setY(y);
 	}
@@ -28,6 +28,16 @@ public class Coordinates {
 	public String toString() {
 		
 		return "\nx: "  + x + " y: " + y;
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if(obj instanceof Coordinates){
+			Coordinates c = (Coordinates)obj;
+			if(this.x==c.getX() && this.y==c.getY())
+				return true;
+		}
+		return false;
 	}
 
 }

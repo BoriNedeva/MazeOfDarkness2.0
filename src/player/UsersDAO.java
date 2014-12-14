@@ -91,6 +91,22 @@ public class UsersDAO {
 		return !users.isEmpty();
 	}
 	
+	public boolean checkEmailInDB(String email)
+	{
+		String sql = "SELECT EMAIL FROM `users` AS U WHERE U.EMAIL = ?";
+		List<String> emails = this.jdbc.query(sql, new Object[] { email }, new RowMapper<String>(){
+			
+			@Override
+			public String mapRow(ResultSet rs, int rowNo) throws SQLException {
+				String email;
+				email = rs.getString("email");
+				return email;
+			}
+		});
+		
+		return !email.isEmpty();
+	}
+	
 	public boolean checkPasswordInDB(String username, String password)
 	{
 		String sql = "SELECT PASSWORD FROM `users` AS U WHERE U.USERNAME = ?";
@@ -107,7 +123,7 @@ public class UsersDAO {
 		return pass.equals(password);
 	}
 	
-	public void updateStatistics(Player player)
+	public void updateStatistics(IPlayer player)
 	{
 		TransactionDefinition def = new DefaultTransactionDefinition();
 		TransactionStatus status = this.transactionManager.getTransaction(def);

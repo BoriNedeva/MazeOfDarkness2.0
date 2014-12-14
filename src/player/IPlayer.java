@@ -4,13 +4,26 @@ import game.Coordinates;
 
 public interface IPlayer {
 	
-	public void setFlashLight(int flashLight);
+	void setFlashLight(int flashLight);
 	
-	public void setScore(int score);
+	void setScore(int score);
 	
 	int getScore();
 	
 	int getFlashLight();
 	
-	public Coordinates getCoords();
+	Coordinates getCoords();
+
+	void setCoords(Coordinates coords);
+
+	boolean isHasWon();
+
+	void setHasWon(boolean hasWon);
+
+	User getUser();
+
+	String getUserName();
+
+	public void move(int x, int y);
+
 }

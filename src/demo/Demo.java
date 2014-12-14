@@ -12,6 +12,7 @@ import player.Statistics;
 import player.User;
 import player.UsersDAO;
 import utilities.Utilities;
+import utilities.ValidateData;
 import cards.*;
 import box.*;
 
@@ -47,14 +48,36 @@ public class Demo {
 //		p.setScore(400);
 //		p.setHasWon(true);
 //		ApplicationContext context = new ClassPathXmlApplicationContext("Beans.xml");
-//		UsersDAO usersDao = context.getBean("usersDAO", UsersDAO.class);
+		UsersDAO usersDao = context.getBean("usersDAO", UsersDAO.class);
 //		//usersDao.updateStatistics(p);
 		
 		//usersDao.registerNewUser("cobrata1", "Admin5", "cobrata@abv.bg");
 		
 		
-
+//		System.out.println(ValidateData.validateUsername("^&*$&$#$"));
+//		System.out.println(ValidateData.validateUsername(".bori"));
+//		System.out.println(ValidateData.validateUsername("_bori"));
+//		System.out.println(ValidateData.validateUsername(".bori"));
+//		System.out.println(ValidateData.validateUsername("bori"));
+//		System.out.println(ValidateData.validateUsername(".bori"));
+//		System.out.println();
+//		System.out.println(ValidateData.validateUsername("bori."));
+//		System.out.println(ValidateData.validateUsername("bori_"));
+//		System.out.println(ValidateData.validateUsername("bori-"));
+//		System.out.println();
+//		System.out.println(ValidateData.validateUsername("5bori"));
+//		System.out.println(ValidateData.validateUsername("bori5"));
+//		
+//		System.out.println(ValidateData.validateUsername("lala.bori"));
+//		System.out.println(ValidateData.validateUsername("lala5bori"));
+//		System.out.println(ValidateData.validateUsername("lala_bori"));
+//		System.out.println(ValidateData.validateUsername("lala-bori"));
+//		System.out.println();
+//		System.out.println(ValidateData.validateUsername("lala..bori"));
+//		System.out.println(ValidateData.validateUsername("lala56bori_5"));
 		
+		System.out.println(usersDao.checkEmailInDB("bori@gmail.com"));
+		System.out.println(usersDao.checkEmailInDB("bori1@gmail.com"));
 	}
 
 }

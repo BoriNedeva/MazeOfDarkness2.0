@@ -1,4 +1,4 @@
-
+<%@ page import="player.FightPlayer"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 
@@ -8,36 +8,45 @@
 <head>
 <meta http-equiv="Content-Type" content="images/jpg; charset=ISO-8859-1">
 
-<title>Insert title here</title>
+<title>Maze Of darkness</title>
 </head>
 <body>
 <%-- <%=request.getAttribute("show") %>
  --%>
+ <% if((Boolean)session.getAttribute("Box")){%>
+		Box!
+		<form  action="wild">
+		<input type="submit" name="choice" value="wild" checked>wild
+		<br>
+		</form>
+		<form action="dispicable">
+		<input type="submit" name="choice" value="despicable">despicable
+		</form>
+	
+<%} session.setAttribute("Box", false);%>
  <%=session.getAttribute("show") %>
+ <%	if((session.getAttribute("card")!=null)){ %>
+	<%= (String)session.getAttribute("card") %>
+	<% } session.setAttribute("card", null); %>
+	<form action="move">	
 		<table>
-		<tr>
-			<td>
-				<form method="get" action="left" > 
-					<input type="submit" value="left" name="right">	
-				</form>
-			</td>
-			<td>
-				<form method="get" action="right" >
-					 <input type="submit" value="right" name="right">
-				</form>
-			</td>
-			<td>
-				<form method="get" action="up" >
-					 <input type="submit" value="up" name="right">
-				</form>
-			</td>
-			<td>	
-				<form method="get" action="down" >
-					 <input type="submit" value="down" name="right">	
-				</form>
-			</td>
-		</tr>
+			<tr>
+				<td>
+					<input type="submit" value="left" name="move">	
+				</td>
+				<td>
+					 <input type="submit" value="right" name="move">
+				</td>
+				<td>
+					 <input type="submit" value="up" name="move">
+				</td>
+				<td>	
+					 <input type="submit" value="down" name="move">	
+				</td>
+				<td> Moves left: <%=((FightPlayer)session.getAttribute("player1")).getNumberOfMoves() %> </td>
+			</tr>
 		</table>
+	</form>	
 
 </body>
 </html>
