@@ -1,16 +1,10 @@
 package utilities;
 
-import java.util.List;
-import java.util.regex.Pattern;
-
-import jdk.nashorn.internal.runtime.regexp.joni.Regex;
-import player.User;
-
 public class ValidateData {
 	
 	public static boolean validateUsername(String username)
 	{
-		return username.matches("^[a-zA-Z]([._-]?[a-zA-Z0-9]+){3,20}$");
+		return username.matches("^[a-zA-Z]([._-]*[a-zA-Z0-9]+){3,20}$");
 	}
 	
 	public static boolean validatePassword(String password)
@@ -20,7 +14,8 @@ public class ValidateData {
 	
 	public static boolean validateEmail(String email)
 	{
-		return email.matches("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,}).{,255}$");
+		//return email.matches("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,}).{,255}$");
+		return email.matches("^[(a-zA-Z-0-9-\\_\\+\\.)]+@[(a-z-A-z)]+\\.[(a-zA-z)]{2,3}$");
 	}
 	
 	public static boolean validateConfirmation(String password, String confirmedPassword)

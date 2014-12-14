@@ -84,11 +84,30 @@ public class UsersDAO {
 			public String mapRow(ResultSet rs, int rowNo) throws SQLException {
 				String user;
 				user = rs.getString("username");
+				System.out.println(user);
 				return user;
 			}
 		});
-		
+		System.out.println("Is USER list empty:" + users.isEmpty());
 		return !users.isEmpty();
+	}
+	
+	public boolean checkEmailInDB(String email)
+	{
+		String sql = "SELECT EMAIL FROM `users` AS U WHERE U.EMAIL = ?";
+		List<String> emails = this.jdbc.query(sql, new Object[] { email }, new RowMapper<String>(){
+			
+			@Override
+			public String mapRow(ResultSet rs, int rowNo) throws SQLException {
+				String emailInDB;
+				emailInDB = rs.getString("email");
+				System.out.println(emailInDB);
+				return emailInDB;
+			}
+		});
+		System.out.println();
+		System.out.println("Is email list empty:" + emails.isEmpty());
+		return !emails.isEmpty();
 	}
 	
 	public boolean checkPasswordInDB(String username, String password)
@@ -107,7 +126,7 @@ public class UsersDAO {
 		return pass.equals(password);
 	}
 	
-	public void updateStatistics(Player player)
+	public void updateStatistics(IPlayer player)
 	{
 		TransactionDefinition def = new DefaultTransactionDefinition();
 		TransactionStatus status = this.transactionManager.getTransaction(def);
@@ -136,7 +155,7 @@ public class UsersDAO {
 		}
 	}
 	
-	public void registerNewUser(String username, String password, String email)
+	public boolean registerNewUser(String username, String password, String email)
 	{
 		TransactionDefinition def = new DefaultTransactionDefinition();
 		TransactionStatus status = this.transactionManager.getTransaction(def);
@@ -147,10 +166,28 @@ public class UsersDAO {
 			
 			this.transactionManager.commit(status);
 			System.out.println("added");
+			return true;
 		}
 		catch(DataAccessException e){
 		this.transactionManager.rollback(status);
 		System.out.println("rollback reg");
+		return false;
+		}
 	}
+		
+	public String checkForgottenPass(String username, String email)
+	{
+		String sql = "SELECT PASSWORD FROM `users` AS U WHERE U.USERNAME = ? AND U.EMAIL = ?";
+		String pass = (String)this.jdbc.queryForObject(sql, new Object[] { username, email }, new RowMapper<String>(){
+			
+			@Override
+			public String mapRow(ResultSet rs, int rowNo) throws SQLException {
+				String pass;
+				pass = rs.getString("password");
+				return pass;
+			}
+		});
+		
+		return pass;
 	}
 }
