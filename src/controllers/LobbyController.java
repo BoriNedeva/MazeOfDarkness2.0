@@ -4,6 +4,7 @@ import game.Coordinates;
 
 import java.io.IOException;
 
+import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -23,15 +24,18 @@ import player.User;
 @Controller
 public class LobbyController {
 	private static final Lobby LOBBY = Lobby.getLobby();
+
 	@RequestMapping(value = "/Lobby", method = RequestMethod.GET)
 	public String handleLobby(ModelMap model, HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		LOBBY.addUser((String) session.getAttribute("username"), session);
-		session.setAttribute("playing", false);
-		session.setAttribute("rejectionMSG", null);
-		session.setAttribute("rejection", null);
-		session.setAttribute("playWtih", null);
-		session.setAttribute("opponentsLimit", 1);
+		HttpSession session = request.getSession(false);
+		if (session != null) {
+			LOBBY.addUser((String) session.getAttribute("username"), session);
+			session.setAttribute("playing", false);
+			session.setAttribute("rejectionMSG", null);
+			session.setAttribute("rejection", null);
+			session.setAttribute("playWtih", null);
+			session.setAttribute("opponentsLimit", 1);
+		}
 		return "LobbyRoom";
 	}
 
@@ -45,17 +49,17 @@ public class LobbyController {
 		HttpSession sessionOpponent = LOBBY.getSession(onlineUsers);
 		sessionOpponent.setAttribute("playWith",
 				session.getAttribute("username"));
-		
+
 		sessionOpponent.setAttribute("opponent",
 				session.getAttribute("username"));
-		
+
 		session.setAttribute("opponent",
 				sessionOpponent.getAttribute("username"));
-		
+
 		sessionOpponent.setAttribute("opponentsLimit", 0);
 
 		session.setAttribute("opponentsLimit", 0);
-		
+
 		return "redirect: waitAnswer";
 	}
 
@@ -65,11 +69,13 @@ public class LobbyController {
 			ModelMap map) throws IOException {
 
 		HttpSession session = request.getSession();
-		HttpSession sessionOpponent = LOBBY.getSession((String)session.getAttribute("opponent"));
+		HttpSession sessionOpponent = LOBBY.getSession((String) session
+				.getAttribute("opponent"));
 
 		if (choice.equals("play")) {
-			Player p1 = new FightPlayer((String)session.getAttribute("username"));
-			Player p2 = new FightPlayer((String)sessionOpponent.getAttribute("username"));;
+			Player p1 = new FightPlayer((String) session.getAttribute("username"),(User) session.getAttribute("user"));
+			Player p2 = new FightPlayer(
+					(String) sessionOpponent.getAttribute("username"),(User) sessionOpponent.getAttribute("user"));
 			session.setAttribute("player1", p1);
 			session.setAttribute("player2", p2);
 			sessionOpponent.setAttribute("player1", p2);
@@ -80,33 +86,41 @@ public class LobbyController {
 			session.setAttribute("playing", true);
 			sessionOpponent.setAttribute("playing", true);
 			return StartGame(map);
-			
-		} 
+
+		}
 		if (choice.equals("reject")) {
 			sessionOpponent.setAttribute("rejection", "true");
-			String msg =(String)session.getAttribute("username")+ " doesn't want to play with you!";
-			sessionOpponent.setAttribute("rejectionMSG", msg);	
+			String msg = (String) session.getAttribute("username")
+					+ " doesn't want to play with you!";
+			sessionOpponent.setAttribute("rejectionMSG", msg);
 			sessionOpponent.setAttribute("playWith", null);
-			sessionOpponent.setAttribute("opponent", null);		
-			sessionOpponent.setAttribute("opponentsLimit", 1);			
+			sessionOpponent.setAttribute("opponent", null);
+			sessionOpponent.setAttribute("opponentsLimit", 1);
 			session.setAttribute("opponentsLimit", 1);
 			session.setAttribute("playWith", null);
 			session.setAttribute("opponent", null);
-			
-			
-			
+
 			return "redirect: Lobby";
 		}
 		return "greshka pri user choice";
 	}
 
-	
 	public String StartGame(ModelMap map) throws IOException {
 		return "redirect: start";
 	}
 
 	@RequestMapping(value = "/waitAnswer", method = RequestMethod.GET)
-	public String waitAnswer(HttpSession session){		
+	public String waitAnswer(HttpSession session) {
 		return "LobbyRoom";
+	}
+
+	@RequestMapping(value = "/Logout", method = RequestMethod.GET)
+	public String logout(HttpServletRequest request) {
+		HttpSession session = request.getSession(false);
+		if (session != null) {
+			LOBBY.removeUser((String) session.getAttribute("username"), session);
+			session.invalidate();
+		}
+		return "redirect: Login";
 	}
 }

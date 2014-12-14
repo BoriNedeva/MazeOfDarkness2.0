@@ -27,29 +27,33 @@ input{
 </title>
 </head>
 <body>
-	<form action="Logout.jsp" method="POST">
+	<form action="Logout" method="GET">
 		<input type="submit" name="logout" value="logout" style="float: right">
 	</form>
 	<%
-		final Lobby lobby = Lobby.getLobby();
-		session = request.getSession(false);
+	//	session = request.getSession(false);
 		String userName = "";
 		if (session != null) {
+
+			final Lobby lobby = Lobby.getLobby();
+
 			HttpSession userSession = null;
 			out.print("<form action=\"chooseOpponent\" method=\"GET\">");
 			out.print("<table><caption>Free players</caption>");
-			
 			for (String user : lobby.getOnlineUsers().keySet()) {
+
 				userSession = lobby.getSession(user);
+				System.out.print(user);
 				if (!session.getAttribute("username").equals(user)
 						&&session.getAttribute("opponent")==null
 						&& (Integer) userSession
 								.getAttribute("opponentsLimit") != 0) {
+					System.out.print("1");
+
 					out.print("<tr><td>");
 					out.println("<input type=\"submit\" name = \"onlineUsers\" value = \""
 							+ user + "\"><br>");
 					out.print("</td></tr>");
-
 				}
 			}
 			out.print("</table></form>");
@@ -59,6 +63,7 @@ input{
 	%>
 
 	<%
+	if (session != null) {
 		if (session.getAttribute("playWith") != null
 				&& (Integer) session.getAttribute("opponentsLimit") != 0) {
 			session.setAttribute("opponentsLimit", 0);
@@ -68,11 +73,11 @@ input{
 			out.print("<input type=\"submit\" value = \"play\" name = \"choice\">");
 			out.print("<input type=\"submit\" value = \"reject\" name = \"choice\">");
 			out.print("</form>");
-
 		}
+	}
 	%>
 
-	<%
+	<%if (session != null){
 		if (session.getAttribute("startGame") != null) {
 			out.print("<form action=\"display\" method=\"GET\">");
 			out.print("<input type=\"submit\" value = \"play\" name = \"start\">");
@@ -80,13 +85,15 @@ input{
 			session.setAttribute("opponentsLimit", 0);
 			session.setAttribute("playing", true);
 		}
+		}
 	%>
 
 	<%
+	if (session != null){
 		if (session.getAttribute("rejection") != null) {
 			out.print((String) session.getAttribute("rejectionMSG"));
 			out.print("<form method=\"GET\" action=\"Lobby\"><input type=\"submit\" value=\"ok\"></form>");
-		}
+		}}
 	%>
 </body>
 </html>
