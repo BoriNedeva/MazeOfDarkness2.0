@@ -3,7 +3,11 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-
+	<bean id="bomb" class="cards.Bomb" scope="singleton">
+		<constructor-arg name="info" type="java.lang.String"
+			value="You hit your opponent with a bomb and their health is decreased by 50!">
+		</constructor-arg>
+	</bean>
 	<bean id="coin" class="cards.Coin" scope="singleton">
 		<constructor-arg name="info" type="java.lang.String"
 			value="You won a coin!">
@@ -66,6 +70,7 @@
 			<ref bean="decreaseOpponentHealth" />
 			<ref bean="reduceOpponentMoves" />
 			<ref bean="trap" />
+			<ref bean="bomb" />
 			</list>
 		</property>
 	</bean>

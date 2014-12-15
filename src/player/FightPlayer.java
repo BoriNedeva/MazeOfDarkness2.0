@@ -34,7 +34,12 @@ public class FightPlayer extends Player {
 	}
 
 	public void setNumberOfMoves(int numberOfMoves) {
-			this.numberOfMoves += numberOfMoves;
+			if(this.numberOfMoves + numberOfMoves >= -5){
+				this.numberOfMoves += numberOfMoves;
+			}
+			else{
+				this.numberOfMoves = -5;
+			}
 	}
 
 	public int getHealth() {
@@ -48,7 +53,12 @@ public class FightPlayer extends Player {
 	}
 
 	public void setHealth(int health) {
-		this.health = health;
+		if(health >= 0){
+			this.health = health;
+		}
+		else{
+			this.health = 0;
+		}
 	}	
 
 }
