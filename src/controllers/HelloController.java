@@ -25,117 +25,142 @@ import box.FightBox;
 public class HelloController {
 
 	@RequestMapping(value = "/move", method = RequestMethod.GET)
-	public String move(@RequestParam String move,HttpServletRequest request,ModelMap map){
+	public String move(@RequestParam String move, HttpServletRequest request,
+			ModelMap map) {
 		HttpSession session = request.getSession();
 		Game currentGame = (Game) session.getAttribute("game");
 		FightPlayer p = (FightPlayer) session.getAttribute("player1");
-		int x=0;
-		int y=0;
-		switch(move){
-			case "right":
-				 x = p.getCoords().getX();
-				 y = p.getCoords().getY() + 1;
-				 break;
-			case "left":
-				 x = p.getCoords().getX();
-				 y = p.getCoords().getY() - 1;
-				 break;
-			case "up":
-				x = p.getCoords().getX()-1;
-				y = p.getCoords().getY();
-				break;
-			case "down":
-				x = p.getCoords().getX()+1;
-				y = p.getCoords().getY();
-				break;
-			}
-		if(p.getNumberOfMoves()>0 && p.getNumberOfMoves() <6){		
+		
+		if(p.isHasLose()){
+			return "redirect: lose";
+		}
+		if(p.isHasWon()){
+			session.setAttribute("winner", true);
+			return "redirect: win";
+		}
+		int x = 0;
+		int y = 0;
+		switch (move) {
+		case "right":
+			x = p.getCoords().getX();
+			y = p.getCoords().getY() + 1;
+			break;
+		case "left":
+			x = p.getCoords().getX();
+			y = p.getCoords().getY() - 1;
+			break;
+		case "up":
+			x = p.getCoords().getX() - 1;
+			y = p.getCoords().getY();
+			break;
+		case "down":
+			x = p.getCoords().getX() + 1;
+			y = p.getCoords().getY();
+			break;
+		}
+		if (p.getNumberOfMoves() > 0 && p.getNumberOfMoves() < 6) {
 			try {
 				if (currentGame.getMaze().getMaze()[x][y] == ' ')
-					p.move(x,y);
-					if(currentGame.checkIfPlayerCanKill()){
-						Player winner = currentGame.checkForWinner();
-						session.setAttribute("winner", winner);
-						currentGame.endGame();
-					}
+					p.move(x, y);
+				if (currentGame.checkIfPlayerCanKill()) {
+					Player winner = currentGame.checkForWinner();
 					
-				if(currentGame.checkForBox(p.getCoords())){
+					//session.setAttribute("winner", winner);
+					currentGame.endGame();
+				}
+
+				
+				if (currentGame.checkForBox(p.getCoords())) {
 					session.setAttribute("Box", true);
 					System.out.println(true);
-				}
-				else System.out.println(false);
-			
+				} else
+					System.out.println(false);
+
 			} catch (IndexOutOfBoundsException e) {
-	
+
 			}
 		}
-		String show = displayGame(currentGame,p);
+		String show = displayGame(currentGame, p);
 		map.addAttribute("show", show);
 		session.setAttribute("show", show);
-		if(p.getNumberOfMoves()>0){
-			if(p.getNumberOfMoves()==1){
-				FightPlayer p2 = (FightPlayer)session.getAttribute("player2");
+		if (p.getNumberOfMoves() > 0) {
+			if (p.getNumberOfMoves() == 1) {
+				FightPlayer p2 = (FightPlayer) session.getAttribute("player2");
 				p2.setNumberOfMoves(6);
 				p.setNumberOfMoves(-1);
-				return"DisplayUnactiveMaze";
-			}else
+				return "DisplayUnactiveMaze";
+			} else
 				p.setNumberOfMoves(-1);
 			return "DisplayMaze";
-		}else{
+		} else {
 			return "DisplayUnactiveMaze";
 		}
-		
-		
+
 	}
+
 	@RequestMapping(value = "/win", method = RequestMethod.GET)
-	public String win(@RequestParam String card,HttpServletRequest request,ModelMap map){
-	
-		return "win";
+	public String win(HttpServletRequest request,
+			ModelMap map) {
+
+		return "Win";
 	}
+
+	@RequestMapping(value = "/lose", method = RequestMethod.GET)
+	public String lose(HttpServletRequest request,
+			ModelMap map) {
+
+		return "Lose";
+	}
+
 	@RequestMapping(value = "/card", method = RequestMethod.GET)
-	public String getCard(@RequestParam String card,HttpServletRequest request,ModelMap map){
-		HttpSession  session = request.getSession();
-		Game game = (Game)session.getAttribute("game");
-		FightPlayer p = (FightPlayer)session.getAttribute("player1");
-		
+	public String getCard(@RequestParam String card,
+			HttpServletRequest request, ModelMap map) {
+		HttpSession session = request.getSession();
+		Game game = (Game) session.getAttribute("game");
+		FightPlayer p = (FightPlayer) session.getAttribute("player1");
+
 		System.out.println(p);
-		String cardInfo ="";
-		if(p.getNumberOfMoves()>0 && p.getNumberOfMoves() <6){	
-		switch(card){
-		case "wild":
-			 cardInfo = game.executeWildCard(p);
-			break;
-		case "despicable":
-			cardInfo = game.executeDespicableCard(p);
-			session.setAttribute("winner", game.checkForWinner());
+		String cardInfo = "";
+		if (p.getNumberOfMoves() > 0 && p.getNumberOfMoves() < 6) {
+			switch (card) {
+			case "wild":
+				cardInfo = game.executeWildCard(p);
+				break;
+			case "despicable":
+				cardInfo = game.executeDespicableCard(p);
+				session.setAttribute("winner", game.checkForWinner());
+				if (session.getAttribute("winner") != null) {
+					game.endGame();
+				}
 			}
 		}
 		p.toString();
-		session.setAttribute("card",cardInfo);
-		String show = displayGame(game,p);
+		session.setAttribute("card", cardInfo);
+		String show = displayGame(game, p);
 		session.setAttribute("show", show);
-		if(p.getNumberOfMoves()>0){
-			if(p.getNumberOfMoves()==1){
-				FightPlayer p2 = (FightPlayer)session.getAttribute("player2");
+		if (p.getNumberOfMoves() > 0) {
+			if (p.getNumberOfMoves() == 1) {
+				FightPlayer p2 = (FightPlayer) session.getAttribute("player2");
 				p2.setNumberOfMoves(6);
 				p.setNumberOfMoves(-1);
-				return"DisplayUnactiveMaze";
-			}else
+				return "DisplayUnactiveMaze";
+			} else
 				p.setNumberOfMoves(-1);
 			return "DisplayMaze";
-		}else{
+		} else {
 			return "DisplayUnactiveMaze";
 		}
-		
+
 	}
-	
+
 	@RequestMapping(value = "/start", method = RequestMethod.GET)
 	public String StartGame(HttpServletRequest request,
 			HttpServletResponse response, ModelMap map) {
 		HttpSession session1 = request.getSession();// (HttpSession)map.get("player1");
 		map = (ModelMap) session1.getAttribute("map");
 		HttpSession session2 = (HttpSession) map.get("player2");
-		ApplicationContext context = new ClassPathXmlApplicationContext("Beans.xml");
+		ApplicationContext context = new ClassPathXmlApplicationContext(
+				"Beans.xml");
 		Box box = context.getBean("fightBox", FightBox.class);
 		Maze m = new Maze(6, 10);
 		Player p1 = (Player) session1.getAttribute("player1");
@@ -144,8 +169,8 @@ public class HelloController {
 		p2.setFlashLight(1);
 		p1.setCoords(m.getCoordinateOfPlayerOne());
 		p2.setCoords(m.getCoordinateOfPlayerTwo());
-		((FightPlayer)p1).setNumberOfMoves(5);		
-		((FightPlayer)p2).setNumberOfMoves(0);
+		((FightPlayer) p1).setNumberOfMoves(5);
+		((FightPlayer) p2).setNumberOfMoves(0);
 		Game game = new Game(p1, p2, box, m);
 		game.placeBoxes();
 		session1.setAttribute("game", game);
@@ -153,8 +178,8 @@ public class HelloController {
 		session2.setAttribute("game", game);
 		session2.setAttribute("startGame", true);
 
-		String show = displayGame(game,p1);
-		//map.addAttribute("show", show);
+		String show = displayGame(game, p1);
+		// map.addAttribute("show", show);
 		session1.setAttribute("show", show);
 		session2.setAttribute("show", show);
 		session1.setAttribute("Box", false);
@@ -162,7 +187,7 @@ public class HelloController {
 		return "DisplayMaze";
 	}
 
-	private String displayGame(Game game,Player p) {
+	private String displayGame(Game game, Player p) {
 		StringBuilder sb = new StringBuilder();
 		char[][] maze = game.getMaze().getMaze();
 		sb.append("<div><table style=\"float: left\">");
@@ -176,13 +201,12 @@ public class HelloController {
 				} else if (i == game.getPlayerTwo().getCoords().getX()
 						&& j == game.getPlayerTwo().getCoords().getY()) {
 					sb.append("<img src=\"img\\player2.gif\" alt=\"Player 2\" height=\"42\" width=\"42\">");
-				}
-				 else if(game.checkForBox(new Coordinates(i, j))){
-					 sb.append("<img src=\"img\\box.jpg\" alt=\"Obstacle\" height=\"42\" width=\"42\">");
-				 }
-				else if (maze[i][j] == '#' && (game.isLight(p, new Coordinates(i, j))))
+				} else if (game.checkForBox(new Coordinates(i, j))) {
+					sb.append("<img src=\"img\\box.jpg\" alt=\"Obstacle\" height=\"42\" width=\"42\">");
+				} else if (maze[i][j] == '#'
+						&& (game.isLight(p, new Coordinates(i, j))))
 					sb.append("<img src=\"img\\obstacle.gif\" alt=\"Obstacle\" height=\"42\" width=\"42\">");
-				else if((game.isLight(p, new Coordinates(i, j))))
+				else if ((game.isLight(p, new Coordinates(i, j))))
 					sb.append("<img src=\"img\\road.gif\" alt=\"Road\" height=\"42\" width=\"42\">");
 				else
 					sb.append("<img src=\"img\\byBori.jpg\" alt=\"Road\" height=\"42\" width=\"42\">");
@@ -195,18 +219,21 @@ public class HelloController {
 	}
 
 	@RequestMapping(value = "/display", method = RequestMethod.GET)
-	public String displayMaze(){
+	public String displayMaze() {
 		return "DisplayMaze";
 	}
+
 	@RequestMapping(value = "/displayUnactive", method = RequestMethod.GET)
-	public String displayUnactiveMaze(HttpServletRequest request){
+	public String displayUnactiveMaze(HttpServletRequest request) {
 		HttpSession session = request.getSession();
-		FightPlayer p = (FightPlayer)session.getAttribute("player1");
-		Game game = (Game)session.getAttribute("game");
-		String show = displayGame(game,p);
+		if (((FightPlayer) session.getAttribute("player1")).isHasLose() == true)
+			return "Lose";
+
+		FightPlayer p = (FightPlayer) session.getAttribute("player1");
+		Game game = (Game) session.getAttribute("game");
+		String show = displayGame(game, p);
 		session.setAttribute("show", show);
 		return "DisplayUnactiveMaze";
 	}
-	
-	
+
 }

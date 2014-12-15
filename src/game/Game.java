@@ -155,9 +155,11 @@ public  class Game implements IGame {
 	public Player checkForWinner() {
 		if (((FightPlayer)playerOne).getHealth() == 0) {
 			playerTwo.setHasWon(true);
+			playerOne.setHasLose(true);
 			return playerTwo;
 		} else if (((FightPlayer)playerTwo).getHealth() == 0) {
 			playerOne.setHasWon(true);
+			playerTwo.setHasLose(true);
 			return playerOne;
 		} else {
 			return null;

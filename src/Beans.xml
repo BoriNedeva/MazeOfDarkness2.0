@@ -81,7 +81,7 @@
 	<property name="url" value="jdbc:mysql://localhost:3306/mazedb">
 	</property>
 	<property name="username" value="root"></property>
-	<property name="password" value="1234"></property>
+	<property name="password" value="root"></property>
 	</bean>
 
 	<bean id="usersDAO" class="player.UsersDAO">

@@ -1,3 +1,4 @@
+<%@page import="lobby.Lobby"%>
 <%@ page import="player.FightPlayer"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 
@@ -10,6 +11,15 @@
 <title>Maze of Darkness</title>
 </head>
 <body>
+
+<%	Lobby lobby = Lobby.getLobby(); 
+	String opponent = (String)session.getAttribute("opponent"); 
+	HttpSession sessionOpponent = lobby.getSession(opponent);
+	 if(sessionOpponent.getAttribute("winner")!= null){
+		 RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/lose");
+		 dispatcher.forward(request,response);
+	}
+%>
 	<%=session.getAttribute("show") %>
 	
 	<form   action="move"  >	
@@ -28,6 +38,5 @@
 			</tr>
 		</table>
 	</form>	
-</div>
 </body>
 </html>

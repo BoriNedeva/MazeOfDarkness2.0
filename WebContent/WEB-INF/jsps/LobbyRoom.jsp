@@ -1,3 +1,6 @@
+<%@page import="player.UsersDAO"%>
+<%@page import="org.springframework.context.support.ClassPathXmlApplicationContext"%>
+<%@page import="org.springframework.context.ApplicationContext"%>
 <%@page import="lobby.Lobby"%>
 <%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -31,6 +34,9 @@ input{
 		<input type="submit" name="logout" value="logout" style="float: right">
 	</form>
 	<%
+	ApplicationContext context = new ClassPathXmlApplicationContext("Beans.xml");
+	UsersDAO usersDAO = context.getBean("usersDAO",UsersDAO.class);
+	
 	//	session = request.getSession(false);
 		String userName = "";
 		if (session != null) {

@@ -11,7 +11,7 @@
 <title>Maze Of darkness</title>
 </head>
 <body>
-<% if(request.getAttribute("winner")!= null){
+<% if(session.getAttribute("winner")!= null){
 	 RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/win");
 	 dispatcher.forward(request,response);
 }
@@ -72,6 +72,5 @@
 			</tr>
 		</table>
 	</form>	
-</div>
 </body>
 </html>
