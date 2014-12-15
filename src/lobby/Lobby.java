@@ -1,9 +1,6 @@
-package lobby;
-
-import java.util.HashMap;
+package lobby;import java.util.HashMap;
 
 import javax.servlet.http.HttpSession;
-
 
 public class Lobby {
 	private HashMap<String, HttpSession> onlineUsers;
@@ -44,5 +41,7 @@ public class Lobby {
 		
 	}
 	
+	
+	
+	
 }
-

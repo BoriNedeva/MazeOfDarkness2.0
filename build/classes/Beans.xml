@@ -12,13 +12,13 @@
 	<bean id="decreaseOpponentHealth"
 		class="cards.DecreaseOpponentHealth" scope="singleton">
 		<constructor-arg name="info" type="java.lang.String"
-			value="Your opponent's health is decreased by 25!">
+			value="Your opponent's health is decreased by 25%!">
 		</constructor-arg>
 	</bean>
 	<bean id="increaseHealth"
 		class="cards.IncreaseHealth" scope="singleton">
 		<constructor-arg name="info" type="java.lang.String"
-			value="Your health is increased by 15!">
+			value="Your health is increased by 15%!">
 		</constructor-arg>
 	</bean>
 	<bean id="knife"

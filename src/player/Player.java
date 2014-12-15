@@ -70,11 +70,4 @@ public abstract class Player implements IPlayer {
 		coords.setX(x);
 		coords.setY(y);
 	}
-
-	@Override
-	public String toString() {
-		return "Player [flashLight=" + flashLight + ", coords=" + coords
-				+ ", userName=" + userName + ", score=" + score + ", user="
-				+ user + ", hasWon=" + hasWon + "]";
-	}
 }

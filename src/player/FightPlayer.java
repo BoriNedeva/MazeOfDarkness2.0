@@ -1,5 +1,7 @@
 package player;
 
+import game.Coordinates;
+
 import java.util.Random;
 
 public class FightPlayer extends Player {
@@ -34,17 +36,11 @@ public class FightPlayer extends Player {
 	}
 
 	public void setNumberOfMoves(int numberOfMoves) {
-			this.numberOfMoves += numberOfMoves;
+		this.numberOfMoves += numberOfMoves;
 	}
 
 	public int getHealth() {
 		return health;
-	}
-
-	@Override
-	public String toString() {
-		return super.toString() + "FightPlayer [numberOfMoves=" + numberOfMoves + ", health="
-				+ health + ", hasKnife=" + hasKnife + "]";
 	}
 
 	public void setHealth(int health) {
