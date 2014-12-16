@@ -232,6 +232,10 @@ public class HelloController {
 		HttpSession session = request.getSession();
 		Game game = (Game) session.getAttribute("game");
 		FightPlayer p = (FightPlayer) session.getAttribute("player1");
+		if (((FightPlayer) session.getAttribute("player1")).isHasLose() == true)
+			return "Lose";
+		if (((FightPlayer) session.getAttribute("player1")).isHasWon() == true)
+			return "win";
 		String show = displayGame(game, p);
 		session.setAttribute("show", show);
 		if(((FightPlayer) session.getAttribute("player1")).getNumberOfMoves()==0){
@@ -245,6 +249,8 @@ public class HelloController {
 		HttpSession session = request.getSession();
 		if (((FightPlayer) session.getAttribute("player1")).isHasLose() == true)
 			return "Lose";
+		if (((FightPlayer) session.getAttribute("player1")).isHasWon() == true)
+			return "win";
 
 		FightPlayer p = (FightPlayer) session.getAttribute("player1");
 		Game game = (Game) session.getAttribute("game");
