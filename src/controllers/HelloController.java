@@ -81,7 +81,7 @@ public class HelloController {
 			}
 		}
 		String show = displayGame(currentGame, p);
-		map.addAttribute("show", show);
+		//map.addAttribute("show", show);
 		session.setAttribute("show", show);
 		if (p.getNumberOfMoves() > 0) {
 			if (p.getNumberOfMoves() == 1) {
@@ -114,8 +114,9 @@ public class HelloController {
 
 	@RequestMapping(value = "/card", method = RequestMethod.GET)
 	public String getCard(@RequestParam String card,
-			HttpServletRequest request, ModelMap map) {
+			HttpServletRequest request ) {
 		HttpSession session = request.getSession();
+		HttpSession sessionOpponent= (HttpSession)session.getAttribute("sessionOpponent");
 		Game game = (Game) session.getAttribute("game");
 		FightPlayer p = (FightPlayer) session.getAttribute("player1");
 
@@ -136,20 +137,22 @@ public class HelloController {
 		}
 		p.toString();
 		session.setAttribute("card", cardInfo);
+		sessionOpponent.setAttribute("card", cardInfo);
 		String show = displayGame(game, p);
 		session.setAttribute("show", show);
-		if (p.getNumberOfMoves() > 0) {
-			if (p.getNumberOfMoves() == 1) {
-				FightPlayer p2 = (FightPlayer) session.getAttribute("player2");
-				p2.setNumberOfMoves(6);
-				p.setNumberOfMoves(-1);
-				return "DisplayUnactiveMaze";
-			} else
-				p.setNumberOfMoves(-1);
+		sessionOpponent.setAttribute("show", show);
+//		if (p.getNumberOfMoves() > 0) {
+//			if (p.getNumberOfMoves() == 1) {
+//				FightPlayer p2 = (FightPlayer) session.getAttribute("player2");
+//				p2.setNumberOfMoves(6);
+//				p.setNumberOfMoves(-1);
+//				return "DisplayUnactiveMaze";
+//			} else
+//				p.setNumberOfMoves(-1);
 			return "DisplayMaze";
-		} else {
-			return "DisplayUnactiveMaze";
-		}
+//		} else {
+//			return "DisplayUnactiveMaze";
+//		}
 
 	}
 
@@ -175,8 +178,10 @@ public class HelloController {
 		game.placeBoxes();
 		session1.setAttribute("game", game);
 		session1.setAttribute("player1", p1);
+		session1.setAttribute("sessionOpponent", session2);
 		session2.setAttribute("game", game);
 		session2.setAttribute("startGame", true);
+		session2.setAttribute("sessionOpponent", session1);
 
 		String show = displayGame(game, p1);
 		// map.addAttribute("show", show);

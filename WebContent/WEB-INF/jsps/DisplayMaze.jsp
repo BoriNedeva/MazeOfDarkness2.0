@@ -22,21 +22,26 @@
 	 RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/displayUnactive");
 	 dispatcher.forward(request,response);
  } %>
- <% if((Boolean)session.getAttribute("Box")){%>
-		Box!
-		<form   action="card" enctype="multipart/form-data">
-		<input type="submit" name="card" value="wild" checked>wild
-		<br>
-		</form>
-		<form action="card">
-		<input type="submit" name="card" value="despicable">despicable
-		</form>
+ 	 <%=session.getAttribute("show") %>
+ 	 <table style="float: left">
+		<tr>
+				<td> Moves left: <%=((FightPlayer)session.getAttribute("player1")).getNumberOfMoves() %> </td>
+				<td> Moves left: <%=((FightPlayer)session.getAttribute("player2")).getNumberOfMoves() %> </td>
+			</tr>
+			<tr>
+			   <td>  name  <%=((FightPlayer)session.getAttribute("player1")).getUserName()  %> </td>
+			    <td>  name  <%=((FightPlayer)session.getAttribute("player2")).getUserName()  %> </td>
+			</tr>
+			<tr>
+			   <td>  score  <%=((FightPlayer)session.getAttribute("player1")).getScore() %> </td>
+			   <td>  score  <%=((FightPlayer)session.getAttribute("player2")).getScore() %> </td>
+			</tr>
+			<tr>
+			   <td>  health  <%=((FightPlayer)session.getAttribute("player1")).getHealth()  %> </td>
+			   <td>  health  <%=((FightPlayer)session.getAttribute("player2")).getHealth()  %> </td>
+			</tr>
+		</table>
 	
-<%} session.setAttribute("Box", false);%>
- <%=session.getAttribute("show") %>
- <%	if((session.getAttribute("card")!=null)){ %>
-	<%= (String)session.getAttribute("card") %>
-	<% } session.setAttribute("card", null); %>
 	
 	<form   action="move"  >	
 		<table  style="float: left">
@@ -58,19 +63,40 @@
 					 <input type="submit" value="down" name="move">	
 			</td>
 			</tr>
-				<tr>
-				<td> Moves left: <%=((FightPlayer)session.getAttribute("player1")).getNumberOfMoves() %> </td>
-			</tr>
-			<tr>
-			   <td>  name  <%=((FightPlayer)session.getAttribute("player1")).getUserName()  %> </td>
-			</tr>
-			<tr>
-			   <td>  score  <%=((FightPlayer)session.getAttribute("player1")).getScore() %> </td>
-			</tr>
-			<tr>
-			   <td>  health  <%=((FightPlayer)session.getAttribute("player1")).getHealth()  %> </td>
-			</tr>
-		</table>
-	</form>	
+	</table>
+	<table style="float: left">
+			 <%	if((session.getAttribute("card")!=null)){ %>
+			 <tr>
+			  <td> <%= ((FightPlayer)session.getAttribute("player1")).getUserName() %> <%= (String)session.getAttribute("card") %> 
+			 </td>
+			  </tr>
+								
+					<%    session.setAttribute("card", null);} %>
+			
+	</table>
+</form>	
+		
+	<% if((Boolean)session.getAttribute("Box")){%>
+							Box!
+							<form   action="card" >
+							<table style="float: left">
+							<tr>
+								<td>
+								<input type="submit" name="card" value="wild" checked>wild
+								</td>
+							</tr>
+							<tr>
+								<td>
+								<input type="submit" name="card" value="despicable">despicable
+								</td>
+							</tr>
+							</table>
+														
+							</form>
+								
+							<%} session.setAttribute("Box", false);%>
+							
+							
+</div>
 </body>
 </html>
