@@ -36,8 +36,8 @@ public class HelloController {
 			return "redirect: lose";
 		}
 		if(p.isHasWon()){
-			session.setAttribute("winner", true);
-			return "redirect: win";
+			session.setAttribute("Winner", true);
+			return "redirect: Win";
 		}
 		int x = 0;
 		int y = 0;
@@ -63,12 +63,13 @@ public class HelloController {
 				if (currentGame.getMaze().getMaze()[x][y] == ' ')
 					p.move(x, y);
 				if (currentGame.checkIfPlayerCanKill()) {
-					//Player winner = currentGame.checkForWinner();
+					currentGame.checkForWinner();
 					currentGame.endGame();
 				}
 				if(currentGame.getCupCoordinates()!=null && currentGame.getCupCoordinates().equals(p.getCoords())){
 					p.setHasWon(true);
 					p2.setHasLose(true);
+					currentGame.endGame();
 				}
 				
 				if (currentGame.checkForBox(p.getCoords())) {
@@ -102,8 +103,8 @@ public class HelloController {
 
 	}
 
-	@RequestMapping(value = "/win", method = RequestMethod.GET)
-	public String win(HttpServletRequest request,
+	@RequestMapping(value = "/Win", method = RequestMethod.GET)
+	public String Win(HttpServletRequest request,
 			ModelMap map) {
 
 		return "Win";
@@ -133,8 +134,8 @@ public class HelloController {
 				break;
 			case "despicable":
 				cardInfo = game.executeDespicableCard(p);
-				session.setAttribute("winner", game.checkForWinner());
-				if (session.getAttribute("winner") != null) {
+				session.setAttribute("Winner", game.checkForWinner());
+				if (session.getAttribute("Winner") != null) {
 					game.endGame();
 				}
 			}
@@ -238,7 +239,7 @@ public class HelloController {
 		if (((FightPlayer) session.getAttribute("player1")).isHasLose() == true)
 			return "Lose";
 		if (((FightPlayer) session.getAttribute("player1")).isHasWon() == true)
-			return "win";
+			return "Win";
 		String show = displayGame(game, p);
 		session.setAttribute("show", show);
 		if(((FightPlayer) session.getAttribute("player1")).getNumberOfMoves()==0){
@@ -253,7 +254,7 @@ public class HelloController {
 		if (((FightPlayer) session.getAttribute("player1")).isHasLose() == true)
 			return "Lose";
 		if (((FightPlayer) session.getAttribute("player1")).isHasWon() == true)
-			return "win";
+			return "Win";
 
 		FightPlayer p = (FightPlayer) session.getAttribute("player1");
 		Game game = (Game) session.getAttribute("game");

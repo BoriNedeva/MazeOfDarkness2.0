@@ -112,7 +112,7 @@ public  class Game implements IGame {
 			if(this.box.getBoxCoords().size()==0){
 				createCupCoordinates();
 			}
-			return card.getCardInfo();
+			return card.getCardInfo(player);
 	}
 	private void createCupCoordinates(){
 		Random rand = new Random();
@@ -133,13 +133,14 @@ public  class Game implements IGame {
 			if(player.getCoords().equals(this.playerOne.getCoords()))
 			{
 				card.execute(this.playerTwo);
-				
+				return card.getCardInfo(playerTwo);
 			}
 			else{
 				card.execute(this.playerOne);
+				return card.getCardInfo(playerOne);
 		}
-			return card.getCardInfo();
 	}
+	
 	@Override
 	public void endGame() {
 		ApplicationContext context = new ClassPathXmlApplicationContext("Beans.xml");

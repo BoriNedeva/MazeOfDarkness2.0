@@ -12,7 +12,7 @@
 </head>
 <body>
 <% if(session.getAttribute("winner")!= null){
-	 RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/win");
+	 RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/Win");
 	 dispatcher.forward(request,response);
 }
 

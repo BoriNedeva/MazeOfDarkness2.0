@@ -5,7 +5,7 @@
 
 	<bean id="bomb" class="cards.Bomb" scope="singleton">
 		<constructor-arg name="info" type="java.lang.String"
-			value=" hit their opponent with a bomb and their health is decreased by 50!">
+			value=" hit their opponent with a bomb &lt;br&gt; and their health is decreased by 50!">
 		</constructor-arg>
 	</bean>
 	<bean id="coin" class="cards.Coin" scope="singleton">
@@ -34,7 +34,7 @@
 	<bean id="lightUp"
 		class="cards.LightUp" scope="singleton">
 		<constructor-arg name="info" type="java.lang.String"
-			value="'s flashlight has become stronger and now is lighting 2 more squares!">
+			value="'s flashlight has become stronger &lt;br&gt; and now is lighting 2 more squares!">
 		</constructor-arg>
 	</bean>
 	<bean id="reduceOpponentMoves"

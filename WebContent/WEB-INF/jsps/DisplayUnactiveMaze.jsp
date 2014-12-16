@@ -33,7 +33,7 @@
 			</table >
 			 <%	if((session.getAttribute("card")!=null)){ %>
 			<table  style="float: left">
-							<tr> <td>  <%= ((FightPlayer)session.getAttribute("player1")).getUserName() %>  <%= (String)session.getAttribute("card") %> </td> </tr> 
+							<tr> <td>  <%=session.getAttribute("card") %> </td> </tr> 
 								<%    session.setAttribute("card", null);} %>
 		</table>
 	</form>	

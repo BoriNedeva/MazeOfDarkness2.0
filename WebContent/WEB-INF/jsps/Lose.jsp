@@ -4,17 +4,26 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+<title>You lose!</title>
+<style>
+body{
+background-image: url("img\\mazeWallpaper.jpg");
+background-repeat:no-repeat;
+background-size:cover;
+
+color: white;
+
+}
+</style>
 </head>
 <body>
-
-<h1><%=session.getAttribute("player1").toString() %> lose!</h1>
-
+<div align="center" style = "margin-top: 50px">
+<font size="1000">
+You lose!
+</font>
 <form action="goBackToLobby" method = "GET">
-<input type="submit">Lobby
+<input type="submit" value = "Go to Lobby">
 </form>
-
-
-
+</div>
 </body>
 </html>
