@@ -2,6 +2,7 @@ package player;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -12,7 +13,6 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.TransactionStatus;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import com.mysql.jdbc.Statement;
@@ -175,7 +175,7 @@ public class UsersDAO {
 		}
 	}
 		
-	public String checkForgottenPass(String username, String email)
+	/*public String checkForgottenPass(String username, String email)
 	{
 		String sql = "SELECT PASSWORD FROM `users` AS U WHERE U.USERNAME = ? AND U.EMAIL = ?";
 		String pass = (String)this.jdbc.queryForObject(sql, new Object[] { username, email }, new RowMapper<String>(){
@@ -189,5 +189,26 @@ public class UsersDAO {
 		});
 		
 		return pass;
+	}*/
+	
+	public List<User> getTopUsers()
+	{
+		String sql = "SELECT * FROM `users` AS U LEFT JOIN `userstatistics` AS stat on U.username=stat.user ORDER BY LEVEL DESC, WINS DESC, `HIGH SCORE` LIMIT 5";
+		return this.jdbc.query(sql, new RowMapper<User>(){
+
+				@Override
+				public User mapRow(ResultSet rs, int columnNo) throws SQLException {
+					User user = new User();
+					Statistics statistics = new Statistics();
+					user.setUsername(rs.getString("username"));
+					user.setPassword(rs.getString("password"));
+					user.setEmail(rs.getString("email"));
+					statistics.setHighScore(rs.getInt("high score"));
+					statistics.setLevel(rs.getInt("level"));
+					statistics.setWins(rs.getInt("wins"));
+					user.setStatistics(statistics);
+					return user;
+				}
+		});
 	}
 }

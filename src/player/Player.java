@@ -15,16 +15,9 @@ public abstract class Player implements IPlayer {
 	private User user;
 	
 	private boolean hasWon;
+	
 	private boolean hasLose;
 	
-	public boolean isHasLose() {
-		return hasLose;
-	}
-
-	public void setHasLose(boolean hasLose) {
-		this.hasLose = hasLose;
-	}
-
 	Player(final String userName, final User user) {
 
 		this.userName = userName;
@@ -34,6 +27,15 @@ public abstract class Player implements IPlayer {
 		this.user = user;
 	}
 
+	
+	public boolean isHasLose() {
+			return hasLose;
+		}
+		
+	public void setHasLose(boolean hasLose) {
+		 this.hasLose = hasLose;
+		}
+	
 	public void setFlashLight(int flashLight) {
 		this.flashLight = flashLight;
 	}

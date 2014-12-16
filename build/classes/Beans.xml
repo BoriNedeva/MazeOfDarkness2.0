@@ -43,12 +43,7 @@
 			value="Your opponent will lose 3 of their moves!">
 		</constructor-arg>
 	</bean>
-	<bean id="showWholeMap"
-		class="cards.ShowWholeMap" scope="singleton">
-		<constructor-arg name="info" type="java.lang.String"
-			value="You are allowed to see the whole map!">
-		</constructor-arg>
-	</bean>
+	
 	<bean id="trap"
 		class="cards.Trap" scope="singleton">
 		<constructor-arg name="info" type="java.lang.String"
@@ -62,7 +57,6 @@
 			<ref bean="increaseHealth" />
 			<ref bean="knife" />
 			<ref bean="lightUp" />
-			<ref bean="showWholeMap" />
 			</list>
 		</property>
 		<property name="despicableCards">
@@ -81,7 +75,7 @@
 	<property name="url" value="jdbc:mysql://localhost:3306/mazedb">
 	</property>
 	<property name="username" value="root"></property>
-	<property name="password" value="root"></property>
+	<property name="password" value="1234"></property>
 	</bean>
 
 	<bean id="usersDAO" class="player.UsersDAO">
