@@ -58,14 +58,12 @@ public class HelloController {
 			y = p.getCoords().getY();
 			break;
 		}
-		if (p.getNumberOfMoves() > 0 && p.getNumberOfMoves() < 6) {
 			try {
 				if (currentGame.getMaze().getMaze()[x][y] == ' ')
 					p.move(x, y);
 				if (currentGame.checkIfPlayerCanKill()) {
 					Player winner = currentGame.checkForWinner();
 					
-					//session.setAttribute("winner", winner);
 					currentGame.endGame();
 				}
 
@@ -79,22 +77,25 @@ public class HelloController {
 			} catch (IndexOutOfBoundsException e) {
 
 			}
-		}
+	
 		String show = displayGame(currentGame, p);
-		//map.addAttribute("show", show);
 		session.setAttribute("show", show);
-		if (p.getNumberOfMoves() > 0) {
+		
 			if (p.getNumberOfMoves() == 1) {
-				FightPlayer p2 = (FightPlayer) session.getAttribute("player2");
-				p2.setNumberOfMoves(6);
+				FightPlayer p2 = (FightPlayer) session.getAttribute("player2");				
+				p2.setNumberOfMoves(Game.getAvailablemoves());
+				if(p2.getNumberOfMoves()>0){
+					p.setNumberOfMoves(-1);
+					return "redirect: displayUnactive";
+				}else{
+					p.setNumberOfMoves(Game.getAvailablemoves()-1);
+				}
+			} else{
 				p.setNumberOfMoves(-1);
-				return "DisplayUnactiveMaze";
-			} else
-				p.setNumberOfMoves(-1);
-			return "DisplayMaze";
-		} else {
-			return "DisplayUnactiveMaze";
-		}
+			}
+				return "redirect: display";
+		
+		
 
 	}
 
@@ -122,7 +123,7 @@ public class HelloController {
 
 		System.out.println(p);
 		String cardInfo = "";
-		if (p.getNumberOfMoves() > 0 && p.getNumberOfMoves() < 6) {
+		//if (p.getNumberOfMoves() > 0 && p.getNumberOfMoves() < 6) {
 			switch (card) {
 			case "wild":
 				cardInfo = game.executeWildCard(p);
@@ -134,7 +135,7 @@ public class HelloController {
 					game.endGame();
 				}
 			}
-		}
+	//	}
 		p.toString();
 		session.setAttribute("card", cardInfo);
 		sessionOpponent.setAttribute("card", cardInfo);
@@ -149,7 +150,7 @@ public class HelloController {
 //				return "DisplayUnactiveMaze";
 //			} else
 //				p.setNumberOfMoves(-1);
-			return "DisplayMaze";
+			return "redirect: display";
 //		} else {
 //			return "DisplayUnactiveMaze";
 //		}
@@ -172,10 +173,13 @@ public class HelloController {
 		p2.setFlashLight(1);
 		p1.setCoords(m.getCoordinateOfPlayerOne());
 		p2.setCoords(m.getCoordinateOfPlayerTwo());
-		((FightPlayer) p1).setNumberOfMoves(5);
-		((FightPlayer) p2).setNumberOfMoves(0);
+		
+		session1.setAttribute("canMove",true);
+		session2.setAttribute("canMove",false);
 		Game game = new Game(p1, p2, box, m);
 		game.placeBoxes();
+		((FightPlayer) p1).setNumberOfMoves(Game.getAvailablemoves());
+		((FightPlayer) p2).setNumberOfMoves(0);
 		session1.setAttribute("game", game);
 		session1.setAttribute("player1", p1);
 		session1.setAttribute("sessionOpponent", session2);
@@ -224,7 +228,15 @@ public class HelloController {
 	}
 
 	@RequestMapping(value = "/display", method = RequestMethod.GET)
-	public String displayMaze() {
+	public String displayMaze(HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		Game game = (Game) session.getAttribute("game");
+		FightPlayer p = (FightPlayer) session.getAttribute("player1");
+		String show = displayGame(game, p);
+		session.setAttribute("show", show);
+		if(((FightPlayer) session.getAttribute("player1")).getNumberOfMoves()==0){
+			return"redirect: displayUnactive";
+		}
 		return "DisplayMaze";
 	}
 
@@ -238,6 +250,9 @@ public class HelloController {
 		Game game = (Game) session.getAttribute("game");
 		String show = displayGame(game, p);
 		session.setAttribute("show", show);
+		if(p.getNumberOfMoves()>0){
+			return"redirect: display";
+		}
 		return "DisplayUnactiveMaze";
 	}
 

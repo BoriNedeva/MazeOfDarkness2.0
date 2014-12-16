@@ -12,6 +12,7 @@ import player.IPlayer;
 import player.Player;
 import player.UsersDAO;
 import box.Box;
+import box.FightBox;
 
 public  class Game implements IGame {
 	private static final int NUMBER_OF_BOXES=10;
@@ -19,6 +20,7 @@ public  class Game implements IGame {
 	private Player playerOne;
 	private Player playerTwo;
 	private Box box ;
+	private static final int availableMoves = 5;
 	
 	private Maze maze;
 	
@@ -26,9 +28,12 @@ public  class Game implements IGame {
 		this.playerOne = playerOne;
 		this.playerTwo = playerTwo;
 		this.box = box;
-		this.maze = maze;	
+		this.maze = maze;
+		
 	}
-	
+	public Box getBox() {
+		return box;
+	}
 	public void placeBoxes() {
 		Random rand = new  Random();
 		int idx = rand.nextInt(maze.getEmptyFieldCoords().size());
@@ -51,7 +56,24 @@ public  class Game implements IGame {
 		// TODO Auto-generated method stub
 		
 	}
+
+	public void lightUp(int flashLight) {
+		// TODO Auto-generated method stub
+		
+	}
 	
+	public Maze getMaze() {
+		return maze;
+	}
+	public Player getPlayerOne() {
+	
+		return playerOne;
+	}
+	
+	public Player getPlayerTwo() {
+		
+		return playerTwo;
+	}
 	public boolean checkForBox(Coordinates coords){
 		for (int i = 0; i < box.getBoxCoords().size(); i++) {
 			if(coords.equals(box.getBoxCoords().get(i)))
@@ -59,7 +81,6 @@ public  class Game implements IGame {
 		}
 		return false;
 	}
-	
 	public boolean isLight(Player p,Coordinates c){
 		int x = p.getCoords().getX();
 		int y = p.getCoords().getY();
@@ -81,7 +102,6 @@ public  class Game implements IGame {
 		}
 		return false;
 	}
-	
 	public String executeWildCard(IPlayer player)
 	{
 			ICard card = this.box.giveRandomWildCard();
@@ -90,7 +110,7 @@ public  class Game implements IGame {
 				this.box.getWildCards().remove(card);
 			}
 			this.box.getBoxCoords().remove(player.getCoords());
-			return card.getCardInfo(player);
+			return card.getCardInfo();
 	}
 	
 	public String executeDespicableCard(IPlayer player)
@@ -101,33 +121,13 @@ public  class Game implements IGame {
 			if(player.getCoords().equals(this.playerOne.getCoords()))
 			{
 				card.execute(this.playerTwo);
-				return card.getCardInfo(this.playerTwo);
+				
 			}
 			else{
 				card.execute(this.playerOne);
-				return card.getCardInfo(this.playerOne);
 		}
-			
+			return card.getCardInfo();
 	}
-	
-	public Maze getMaze() {
-		return maze;
-	}
-	
-	public Player getPlayerOne() {
-	
-		return playerOne;
-	}
-	
-	public Player getPlayerTwo() {
-		
-		return playerTwo;
-	}
-
-	public Box getBox() {
-		return this.box;
-	}
-
 	@Override
 	public void endGame() {
 		ApplicationContext context = new ClassPathXmlApplicationContext("Beans.xml");
@@ -135,7 +135,6 @@ public  class Game implements IGame {
 		usersDao.updateStatistics(this.playerOne);
 		usersDao.updateStatistics(this.playerTwo);
 	}
-	
 	public boolean checkIfPlayerCanKill()
 	{
 		if(playerOne.getCoords().equals(playerTwo.getCoords()))
@@ -157,14 +156,16 @@ public  class Game implements IGame {
 	public Player checkForWinner() {
 		if (((FightPlayer)playerOne).getHealth() == 0) {
 			playerTwo.setHasWon(true);
-			playerOne.setHasLose(true);
 			return playerTwo;
 		} else if (((FightPlayer)playerTwo).getHealth() == 0) {
 			playerOne.setHasWon(true);
-			playerTwo.setHasLose(true);
 			return playerOne;
 		} else {
 			return null;
 		}
+	}
+	public static int getAvailablemoves() {
+		return availableMoves;
 	}	
 }
+

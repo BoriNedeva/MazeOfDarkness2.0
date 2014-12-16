@@ -15,8 +15,8 @@
 	<form >	
 		<table  style="float: left">
 			<tr>
-				<td> Moves left: <%=(((FightPlayer)session.getAttribute("player1")).getNumberOfMoves()-1) %> </td>
-				<td> Moves left: <%=(((FightPlayer)session.getAttribute("player2")).getNumberOfMoves()-1) %> </td>
+				<td> Moves left: <%=((FightPlayer)session.getAttribute("player1")).getNumberOfMoves() %> </td>
+				<td> Moves left: <%=((FightPlayer)session.getAttribute("player2")).getNumberOfMoves() %> </td>
 			</tr>
 			<tr>
 			   <td>  name  <%=((FightPlayer)session.getAttribute("player1")).getUserName()  %> </td>

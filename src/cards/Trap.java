@@ -1,11 +1,11 @@
 package cards;
 
-import player.FightPlayer;
-import player.IPlayer;
+import game.Game;
+import player.*;
 
 public class Trap extends DespicableCard{
 
-	public static final int ALL_MOVES_TO_MISS = -5;
+public static final int ALL_MOVES_TO_MISS = -Game.getAvailablemoves();
 	
 	public Trap(String info) {
 		super(info);
