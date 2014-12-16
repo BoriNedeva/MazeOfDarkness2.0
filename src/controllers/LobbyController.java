@@ -25,9 +25,6 @@ public class LobbyController {
 	@RequestMapping(value = "/Lobby", method = RequestMethod.GET)
 	public String handleLobby(ModelMap model, HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
-		if(session == null || session.getAttribute("user") == null){
-			return "redirect: Login";
-		}
 		if (session != null) {
 			LOBBY.addUser((String) session.getAttribute("username"), session);
 			session.setAttribute("playing", false);
@@ -45,6 +42,7 @@ public class LobbyController {
 			throws IOException {
 
 		HttpSession session = request.getSession();
+
 		HttpSession sessionOpponent = LOBBY.getSession(onlineUsers);
 		sessionOpponent.setAttribute("playWith",
 				session.getAttribute("username"));
@@ -99,9 +97,8 @@ public class LobbyController {
 			sessionOpponent.setAttribute("opponent", null);
 			sessionOpponent.setAttribute("opponentsLimit", 1);
 			session.setAttribute("opponentsLimit", 1);
-			// session.setAttribute("playWith", null);
+			 session.setAttribute("playWith", null);
 			session.setAttribute("opponent", null);
-
 			return "redirect: Lobby";
 		}
 		return "greshka pri user choice";
@@ -113,14 +110,12 @@ public class LobbyController {
 
 	@RequestMapping(value = "/waitAnswer", method = RequestMethod.GET)
 	public String waitAnswer(HttpSession session) {
-		if(session == null || session.getAttribute("user") == null){
-			return "redirect: Login";
-		}
 		return "LobbyRoom";
 	}
 
 	@RequestMapping(value = "/goBackToLobby", method = RequestMethod.GET)
 	public String goBackToLobby(HttpSession session) {
+
 		session.setAttribute("startGame", null);
 		session.setAttribute("opponent", null);
 		session.removeAttribute("startGame");
@@ -132,9 +127,6 @@ public class LobbyController {
 	@RequestMapping(value = "/Logout", method = RequestMethod.GET)
 	public String logout(HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
-		if(session == null || session.getAttribute("user") == null){
-			return "redirect: Login";
-		}
 		if (session != null) {
 			LOBBY.removeUser((String) session.getAttribute("username"), session);
 			session.invalidate();

@@ -24,27 +24,30 @@ table {
 }
 
 td.userInfo {
-	float:center;
+	float: center;
 	padding: 10px;
 }
 
 .freePlayers {
-	float: right;
+	float: left;
 	width: 50%;
+	 /* height: 250px; */
 }
 
-/* th, td {
-	padding: 5px;
-	text-align: left;
-} */
+#messages {
+position:absolute;
+margin:10px;
+	padding-top:200px;
+	width:25%;
+	float: right;
+}
+
 input {
 	width: 100px;
 }
 </style>
 
-<title>
-	Lobby
-</title>
+<title>Lobby</title>
 </head>
 <body>
 	<form action="Logout" method="GET">
@@ -61,7 +64,8 @@ input {
 
 
 	<table class="userInfo" style="width: 25%;">
-		<caption style="font-size: 30px;"><%=session.getAttribute("username")%>'s profile info
+		<caption style="font-size: 30px"><%=session.getAttribute("username")%>'s
+			profile info
 		</caption>
 		<tr>
 			<td class="userInfo">Level</td>
@@ -91,16 +95,15 @@ input {
 			HttpSession userSession = null;
 			out.print("<form action=\"chooseOpponent\" method=\"GET\">");
 			out.print("<table class=\"freePlayers\"><caption>Free players</caption>");
+			if (lobby.getOnlineUsers().size() == 1) {
+				out.print("<tr style=\"text-align:center\"><td>No active players</td></tr>");
+			}
 			for (String user : lobby.getOnlineUsers().keySet()) {
-
 				userSession = lobby.getSession(user);
-				System.out.print(user);
 				if (!session.getAttribute("username").equals(user)
 						&& session.getAttribute("opponent") == null
 						&& (Integer) userSession
 								.getAttribute("opponentsLimit") != 0) {
-					System.out.print("1");
-
 					out.print("<tr style=\"text-align:center\"><td>");
 					out.println("<input type=\"submit\" name = \"onlineUsers\" value = \""
 							+ user + "\"><br>");
@@ -113,7 +116,11 @@ input {
 		response.setIntHeader("Refresh", 3);
 	%>
 
+<div id="messages"><h1>Messages</h1>
 	<%
+	System.out.print(session.getAttribute("username")+" "+session.getAttribute("playWith"));
+	System.out.print(session.getAttribute("username")+" "+session.getAttribute("opponentsLimit"));
+
 		if (session != null) {
 			if (session.getAttribute("playWith") != null
 					&& (Integer) session.getAttribute("opponentsLimit") != 0) {
@@ -148,5 +155,6 @@ input {
 			}
 		}
 	%>
+	</div>
 </body>
 </html>
