@@ -23,11 +23,11 @@ public class Demo {
 		Box box = context.getBean("fightBox", FightBox.class);
 		System.out.println(box.getWildCards().size());
 		for (int i = 0; i < box.getWildCards().size(); i++) {
-			System.out.println(box.getWildCards().get(i).getCardInfo());
+		//	System.out.println(box.getWildCards().get(i).getCardInfo());
 		}
 		System.out.println();
 		for (int i = 0; i < box.getDespicableCards().size(); i++) {
-			System.out.println(box.getDespicableCards().get(i).getCardInfo());
+		//	System.out.println(box.getDespicableCards().get(i).getCardInfo());
 		}
 		/*UsersDAO usersDao = context.getBean("usersDAO", UsersDAO.class);
 		  List<User> users = usersDao.getUsers();

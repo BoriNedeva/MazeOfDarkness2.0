@@ -1,5 +1,7 @@
 package cards;
 
+import player.IPlayer;
+
 public abstract class Card implements ICard{
 	private final String info;
 	
@@ -8,7 +10,7 @@ public abstract class Card implements ICard{
 	}
 
 	@Override
-	public String getCardInfo() {
-		return info;
+	public String getCardInfo(IPlayer player) {
+		return player.getUserName() + info;
 	}
 }

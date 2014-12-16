@@ -5,49 +5,49 @@
 
 	<bean id="bomb" class="cards.Bomb" scope="singleton">
 		<constructor-arg name="info" type="java.lang.String"
-			value="You hit your opponent with a bomb and their health is decreased by 50!">
+			value=" hit their opponent with a bomb and their health is decreased by 50!">
 		</constructor-arg>
 	</bean>
 	<bean id="coin" class="cards.Coin" scope="singleton">
 		<constructor-arg name="info" type="java.lang.String"
-			value="You won a coin!">
+			value=" won a coin!">
 		</constructor-arg>
 	</bean>
 	<bean id="decreaseOpponentHealth"
 		class="cards.DecreaseOpponentHealth" scope="singleton">
 		<constructor-arg name="info" type="java.lang.String"
-			value="Your opponent's health is decreased by 25!">
+			value="'s health is decreased by 25!">
 		</constructor-arg>
 	</bean>
 	<bean id="increaseHealth"
 		class="cards.IncreaseHealth" scope="singleton">
 		<constructor-arg name="info" type="java.lang.String"
-			value="Your health is increased by 15!">
+			value="'s health is increased by 15!">
 		</constructor-arg>
 	</bean>
 	<bean id="knife"
 		class="cards.Knife" scope="singleton">
 		<constructor-arg name="info" type="java.lang.String"
-			value="You won a knife!">
+			value=" won a knife!">
 		</constructor-arg>
 	</bean>
 	<bean id="lightUp"
 		class="cards.LightUp" scope="singleton">
 		<constructor-arg name="info" type="java.lang.String"
-			value="Your flashlight has become stronger and now is lighting 2 more squares!">
+			value="'s flashlight has become stronger and now is lighting 2 more squares!">
 		</constructor-arg>
 	</bean>
 	<bean id="reduceOpponentMoves"
 		class="cards.ReduceOpponentMoves" scope="singleton">
 		<constructor-arg name="info" type="java.lang.String"
-			value="Your opponent will lose 3 of their moves!">
+			value=" will lose 3 of their moves!">
 		</constructor-arg>
 	</bean>
 	
 	<bean id="trap"
 		class="cards.Trap" scope="singleton">
 		<constructor-arg name="info" type="java.lang.String"
-			value="Your opponent fell into a trap and will miss a turn!">
+			value=" fell into a trap and will miss a turn!">
 		</constructor-arg>
 	</bean>
 	<bean id="fightBox" class="box.FightBox" scope="singleton">

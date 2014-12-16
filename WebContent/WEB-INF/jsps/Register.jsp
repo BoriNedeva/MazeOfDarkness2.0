@@ -51,16 +51,21 @@
 		%>
 		<br>
 		<br>
-		
 		<input type="submit" value="Register"><br>
 	</form>
-	<%  //PrintWriter out = response.getWriter();
+	<%  if(request.getAttribute("successfulRegistration") != null){
 		if(!session.isNew() && (Boolean)request.getAttribute("successfulRegistration"))
 		{
 			response.setContentType("text/html"); 
 			out.print("<html><head>"); 
 			out.print("<script type=\"text/javascript\">alert('Successful Registration!'); location.href = '/MazeOfDarkness2.0/Login'</script>"); 
 			out.print("</head><body></body></html>"); 
-		}%>
+		}
+		else if(!session.isNew() && !(Boolean)request.getAttribute("successfulRegistration"))
+		{
+			out.print("Unsuccessful registration! Please try again!");
+		}
+	}
+		%>
 </body>
 </html>

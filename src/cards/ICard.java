@@ -4,7 +4,7 @@ import player.IPlayer;
 
 public interface ICard {
 	
-	String getCardInfo();
+	String getCardInfo(IPlayer player);
 	
 	void execute(IPlayer player);
 }

@@ -90,7 +90,7 @@ public  class Game implements IGame {
 				this.box.getWildCards().remove(card);
 			}
 			this.box.getBoxCoords().remove(player.getCoords());
-			return card.getCardInfo();
+			return card.getCardInfo(player);
 	}
 	
 	public String executeDespicableCard(IPlayer player)
@@ -101,11 +101,13 @@ public  class Game implements IGame {
 			if(player.getCoords().equals(this.playerOne.getCoords()))
 			{
 				card.execute(this.playerTwo);
+				return card.getCardInfo(this.playerTwo);
 			}
 			else{
 				card.execute(this.playerOne);
+				return card.getCardInfo(this.playerOne);
 		}
-			return card.getCardInfo();
+			
 	}
 	
 	public Maze getMaze() {
