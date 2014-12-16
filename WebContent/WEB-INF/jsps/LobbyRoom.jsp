@@ -28,8 +28,8 @@ table {
 	float: left;
 	width: 27%;
 	padding: 10px;
-	margin-right:100px;
-	margin-left:10px;
+	margin-right: 100px;
+	margin-left: 10px;
 	background: #7f7f7f;
 	background: rgba(255, 255, 255, 0.5);
 }
@@ -56,9 +56,9 @@ td.freePlayers {
 .topPlayers {
 	float: left;
 	width: 25%;
-	padding:10px;
-	margin-right:50px;
-	margin-left:100px;
+	padding: 10px;
+	margin-right: 50px;
+	margin-left: 100px;
 	background: #7f7f7f;
 	background: rgba(255, 255, 255, 0.5);
 	font-weight: bold;
@@ -88,15 +88,20 @@ input {
 <title>Lobby</title>
 </head>
 <body>
+
+
+
 	<form action="Logout" method="GET">
-		<input type="submit" name="logout" value="logout" style="float: right; margin-top:-45px;">
+		<input type="submit" name="logout" value="logout"
+			style="float: right; margin-top: -45px;">
 	</form>
 	<%
 		ApplicationContext context = new ClassPathXmlApplicationContext(
 				"Beans.xml");
 		UsersDAO usersDAO = context.getBean("usersDAO", UsersDAO.class);
 
-		Statistics statistics = ((User) session.getAttribute("user"))
+		Statistics statistics = ((User) usersDAO
+				.getLoggedUser((String) session.getAttribute("username")))
 				.getStatistics();
 	%>
 
@@ -119,7 +124,7 @@ input {
 
 		</tr>
 	</table>
-	
+
 	<%
 		//	session = request.getSession(false);
 		String userName = "";
@@ -154,7 +159,7 @@ input {
 
 
 		<tr>
-			<td  style="font-size: 30px;padding-left: 50px">Top players</td>
+			<td style="font-size: 30px; padding-left: 50px">Top players</td>
 		</tr>
 		<tr>
 			<td class="topPlayers">User name</td>
@@ -196,7 +201,6 @@ input {
 					out.print("<input type=\"submit\" value = \"reject\" name = \"choice\">");
 					out.print("</form>");
 				}
-
 			}
 		%>
 

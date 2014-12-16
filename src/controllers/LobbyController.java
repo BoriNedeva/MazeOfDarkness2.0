@@ -97,6 +97,14 @@ public class LobbyController {
 		}
 		sessionOpponent.setAttribute("playWith", null);
 		if (choice.equals("reject")) {
+			return "redirect: rejection";
+		}
+		return "Error";
+	}
+
+	
+	@RequestMapping(value = "/rejection", method = RequestMethod.GET)
+	public String rejection(HttpSession session,HttpSession sessionOpponent) {
 			sessionOpponent.setAttribute("rejection", "true");
 			String msg = (String) session.getAttribute("username")
 					+ " doesn't want to play with you!";
@@ -107,10 +115,9 @@ public class LobbyController {
 			session.setAttribute("playWith", null);
 			session.setAttribute("opponent", null);
 			return "redirect: Lobby";
-		}
-		return "greshka pri user choice";
+		
 	}
-
+	
 	public String StartGame(ModelMap map) throws IOException {
 		return "redirect: start";
 	}
