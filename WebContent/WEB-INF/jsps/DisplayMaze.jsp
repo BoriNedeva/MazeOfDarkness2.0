@@ -23,7 +23,8 @@
 	 dispatcher.forward(request,response);
  } %>
  	 <%=session.getAttribute("show") %>
- 	 <table style="float: left">
+ 	 <form   action="move"  >	
+ 	 <table style="float: left"  style="width:15%">
 		<tr>
 				<td> Moves left: <%=((FightPlayer)session.getAttribute("player1")).getNumberOfMoves() %> </td>
 				<td> Moves left: <%=((FightPlayer)session.getAttribute("player2")).getNumberOfMoves() %> </td>
@@ -40,11 +41,8 @@
 			   <td>  health  <%=((FightPlayer)session.getAttribute("player1")).getHealth()  %> </td>
 			   <td>  health  <%=((FightPlayer)session.getAttribute("player2")).getHealth()  %> </td>
 			</tr>
-		</table>
-	
-	
-	<form   action="move"  >	
-		<table  style="float: left">
+			<tr>
+			<td colspan="3"> <table  style="float: left">
 			<tr>
 				<td colspan="2" align="center">
 					<input type="submit" value="up" name="move">	
@@ -63,17 +61,26 @@
 					 <input type="submit" value="down" name="move">	
 			</td>
 			</tr>
-	</table>
-	<table style="float: left">
+			</table>
+			</td></tr>
+			<tr>
+			<td colspan="3">
+			<table >
 			 <%	if((session.getAttribute("card")!=null)){ %>
 			 <tr>
-			  <td> <%= ((FightPlayer)session.getAttribute("player1")).getUserName() %> <%= (String)session.getAttribute("card") %> 
+			  <td>  <%= (String)session.getAttribute("card") %> 
 			 </td>
 			  </tr>
-								
 					<%    session.setAttribute("card", null);} %>
-			
 	</table>
+			</td>
+			</tr>
+		</table>
+	
+	
+	
+		
+	
 </form>	
 		
 	<% if((Boolean)session.getAttribute("Box")){%>

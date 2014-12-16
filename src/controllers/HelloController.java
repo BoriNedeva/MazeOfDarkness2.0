@@ -30,6 +30,7 @@ public class HelloController {
 		HttpSession session = request.getSession();
 		Game currentGame = (Game) session.getAttribute("game");
 		FightPlayer p = (FightPlayer) session.getAttribute("player1");
+		FightPlayer p2 = (FightPlayer) session.getAttribute("player2");		
 		
 		if(p.isHasLose()){
 			return "redirect: lose";
@@ -62,11 +63,13 @@ public class HelloController {
 				if (currentGame.getMaze().getMaze()[x][y] == ' ')
 					p.move(x, y);
 				if (currentGame.checkIfPlayerCanKill()) {
-					Player winner = currentGame.checkForWinner();
-					
+					//Player winner = currentGame.checkForWinner();
 					currentGame.endGame();
 				}
-
+				if(currentGame.getCupCoordinates()!=null && currentGame.getCupCoordinates().equals(p.getCoords())){
+					p.setHasWon(true);
+					p2.setHasLose(true);
+				}
 				
 				if (currentGame.checkForBox(p.getCoords())) {
 					session.setAttribute("Box", true);
@@ -82,7 +85,7 @@ public class HelloController {
 		session.setAttribute("show", show);
 		
 			if (p.getNumberOfMoves() == 1) {
-				FightPlayer p2 = (FightPlayer) session.getAttribute("player2");				
+						
 				p2.setNumberOfMoves(Game.getAvailablemoves());
 				if(p2.getNumberOfMoves()>0){
 					p.setNumberOfMoves(-1);
@@ -204,14 +207,14 @@ public class HelloController {
 			sb.append("<tr>");
 			for (int j = 0; j < maze[i].length; j++) {
 				sb.append("<td>");
-				if (i == game.getPlayerOne().getCoords().getX()
-						&& j == game.getPlayerOne().getCoords().getY()) {
+				if (game.getPlayerOne().getCoords().equals(new Coordinates(i, j))) {
 					sb.append(" <img src=\"img\\player.png\" alt=\"Player 1\" height=\"42\" width=\"42\"> ");
-				} else if (i == game.getPlayerTwo().getCoords().getX()
-						&& j == game.getPlayerTwo().getCoords().getY()) {
+				} else if (game.getPlayerTwo().getCoords().equals(new Coordinates(i, j))) {
 					sb.append("<img src=\"img\\player2.gif\" alt=\"Player 2\" height=\"42\" width=\"42\">");
 				} else if (game.checkForBox(new Coordinates(i, j))) {
-					sb.append("<img src=\"img\\box.jpg\" alt=\"Obstacle\" height=\"42\" width=\"42\">");
+					sb.append("<img src=\"img\\box.jpg\" alt=\"box\" height=\"42\" width=\"42\">");
+				}else if(game.getCupCoordinates()!=null && game.getCupCoordinates().equals(new Coordinates(i, j)) ){
+						sb.append("<img src=\"img\\cup.jpg\" alt=\"Cup\" height=\"42\" width=\"42\">");
 				} else if (maze[i][j] == '#'
 						&& (game.isLight(p, new Coordinates(i, j))))
 					sb.append("<img src=\"img\\obstacle.gif\" alt=\"Obstacle\" height=\"42\" width=\"42\">");

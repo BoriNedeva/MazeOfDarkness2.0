@@ -21,6 +21,7 @@ public  class Game implements IGame {
 	private Player playerTwo;
 	private Box box ;
 	private static final int availableMoves = 5;
+	private Coordinates cupCoordinates;
 	
 	private Maze maze;
 	
@@ -53,12 +54,10 @@ public  class Game implements IGame {
 	}
 	
 	public void changePosition() {
-		// TODO Auto-generated method stub
 		
 	}
 
 	public void lightUp(int flashLight) {
-		// TODO Auto-generated method stub
 		
 	}
 	
@@ -110,24 +109,36 @@ public  class Game implements IGame {
 				this.box.getWildCards().remove(card);
 			}
 			this.box.getBoxCoords().remove(player.getCoords());
-			return card.getCardInfo(player);
+			if(this.box.getBoxCoords().size()==0){
+				createCupCoordinates();
+			}
+			return card.getCardInfo();
+	}
+	private void createCupCoordinates(){
+		Random rand = new Random();
+		int idx = rand .nextInt(maze.getEmptyFieldCoords().size());
+		int x = maze.getEmptyFieldCoords().get(idx).getX();
+		int y = maze.getEmptyFieldCoords().get(idx).getY();
+		this.setCupCoordinates(new Coordinates(x, y));		
 	}
 	
 	public String executeDespicableCard(IPlayer player)
 	{
 			ICard card = this.box.giveRandomDespicableCard() ;
 			this.box.getBoxCoords().remove(player.getCoords());
+			if(this.box.getBoxCoords().size()==0){
+				createCupCoordinates();
+			}
 			
 			if(player.getCoords().equals(this.playerOne.getCoords()))
 			{
 				card.execute(this.playerTwo);
-				return card.getCardInfo(playerTwo);
+				
 			}
 			else{
 				card.execute(this.playerOne);
-				return card.getCardInfo(playerOne);
 		}
-
+			return card.getCardInfo();
 	}
 	@Override
 	public void endGame() {
@@ -156,10 +167,12 @@ public  class Game implements IGame {
 	
 	public Player checkForWinner() {
 		if (((FightPlayer)playerOne).getHealth() == 0) {
+			playerOne.setHasLose(true);
 			playerTwo.setHasWon(true);
 			return playerTwo;
 		} else if (((FightPlayer)playerTwo).getHealth() == 0) {
 			playerOne.setHasWon(true);
+			playerTwo.setHasLose(true);
 			return playerOne;
 		} else {
 			return null;
@@ -167,6 +180,12 @@ public  class Game implements IGame {
 	}
 	public static int getAvailablemoves() {
 		return availableMoves;
+	}
+	public Coordinates getCupCoordinates() {
+		return cupCoordinates;
+	}
+	private void setCupCoordinates(Coordinates cupCoordinates) {
+		this.cupCoordinates = cupCoordinates;
 	}	
 }
 
