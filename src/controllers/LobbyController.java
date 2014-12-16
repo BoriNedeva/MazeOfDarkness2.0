@@ -70,9 +70,12 @@ public class LobbyController {
 				.getAttribute("opponent"));
 
 		if (choice.equals("play")) {
-			Player p1 = new FightPlayer((String) session.getAttribute("username"),(User) session.getAttribute("user"));
+			Player p1 = new FightPlayer(
+					(String) session.getAttribute("username"),
+					(User) session.getAttribute("user"));
 			Player p2 = new FightPlayer(
-					(String) sessionOpponent.getAttribute("username"),(User) sessionOpponent.getAttribute("user"));
+					(String) sessionOpponent.getAttribute("username"),
+					(User) sessionOpponent.getAttribute("user"));
 			session.setAttribute("player1", p1);
 			session.setAttribute("player2", p2);
 			sessionOpponent.setAttribute("player1", p2);
@@ -85,16 +88,16 @@ public class LobbyController {
 			return StartGame(map);
 
 		}
+		sessionOpponent.setAttribute("playWith", null);
 		if (choice.equals("reject")) {
 			sessionOpponent.setAttribute("rejection", "true");
 			String msg = (String) session.getAttribute("username")
 					+ " doesn't want to play with you!";
 			sessionOpponent.setAttribute("rejectionMSG", msg);
-			sessionOpponent.setAttribute("playWith", null);
 			sessionOpponent.setAttribute("opponent", null);
 			sessionOpponent.setAttribute("opponentsLimit", 1);
 			session.setAttribute("opponentsLimit", 1);
-			session.setAttribute("playWith", null);
+			// session.setAttribute("playWith", null);
 			session.setAttribute("opponent", null);
 
 			return "redirect: Lobby";
@@ -109,6 +112,17 @@ public class LobbyController {
 	@RequestMapping(value = "/waitAnswer", method = RequestMethod.GET)
 	public String waitAnswer(HttpSession session) {
 		return "LobbyRoom";
+	}
+
+	@RequestMapping(value = "/goBackToLobby", method = RequestMethod.GET)
+	public String goBackToLobby(HttpSession session) {
+
+		session.setAttribute("startGame", null);
+		session.setAttribute("opponent", null);
+		session.removeAttribute("startGame");
+		session.removeAttribute("playWith");
+
+		return "redirect: Lobby";
 	}
 
 	@RequestMapping(value = "/Logout", method = RequestMethod.GET)

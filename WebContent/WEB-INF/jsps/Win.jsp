@@ -8,5 +8,11 @@
 </head>
 <body>
 <h1><%=session.getAttribute("player1").toString() %> win!</h1>
+<form action="goBackToLobby" method = "GET">
+<input type="submit">Lobby
+</form>
+
+
+
 </body>
 </html>
