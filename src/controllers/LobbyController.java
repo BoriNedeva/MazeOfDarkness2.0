@@ -17,6 +17,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import player.FightPlayer;
 import player.Player;
 import player.User;
+import player.UsersDAO;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 @Controller
 public class LobbyController {
@@ -25,9 +29,6 @@ public class LobbyController {
 	@RequestMapping(value = "/Lobby", method = RequestMethod.GET)
 	public String handleLobby(ModelMap model, HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
-		if(session == null || session.getAttribute("user") == null){
-			return "redirect: Login";
-		}
 		if (session != null) {
 			LOBBY.addUser((String) session.getAttribute("username"), session);
 			session.setAttribute("playing", false);
@@ -45,6 +46,7 @@ public class LobbyController {
 			throws IOException {
 
 		HttpSession session = request.getSession();
+
 		HttpSession sessionOpponent = LOBBY.getSession(onlineUsers);
 		sessionOpponent.setAttribute("playWith",
 				session.getAttribute("username"));
@@ -72,13 +74,16 @@ public class LobbyController {
 				.getAttribute("opponent"));
 
 		if (choice.equals("play")) {
-			Player p1 = new FightPlayer(
-					(String) session.getAttribute("username"),
-					(User) session.getAttribute("user"));
-			Player p2 = new FightPlayer(
-					(String) sessionOpponent.getAttribute("username"),
-					(User) sessionOpponent.getAttribute("user"));
+			ApplicationContext context = new ClassPathXmlApplicationContext(
+					"Beans.xml");
+			UsersDAO usersDAO = context.getBean("usersDAO", UsersDAO.class);
+			String opponentName = (String) sessionOpponent.getAttribute("username");
+			String myName = (String) session.getAttribute("username");
+			Player p1 = new FightPlayer(myName,(User)usersDAO.getLoggedUser(myName));
+			Player p2 = new FightPlayer(opponentName,(User)usersDAO.getLoggedUser(opponentName));
+
 			session.setAttribute("player1", p1);
+			
 			session.setAttribute("player2", p2);
 			sessionOpponent.setAttribute("player1", p2);
 			sessionOpponent.setAttribute("player2", p1);
@@ -101,7 +106,6 @@ public class LobbyController {
 			session.setAttribute("opponentsLimit", 1);
 			session.setAttribute("playWith", null);
 			session.setAttribute("opponent", null);
-
 			return "redirect: Lobby";
 		}
 		return "greshka pri user choice";
@@ -113,28 +117,27 @@ public class LobbyController {
 
 	@RequestMapping(value = "/waitAnswer", method = RequestMethod.GET)
 	public String waitAnswer(HttpSession session) {
-		if(session == null || session.getAttribute("user") == null){
-			return "redirect: Login";
-		}
 		return "LobbyRoom";
 	}
 
 	@RequestMapping(value = "/goBackToLobby", method = RequestMethod.GET)
 	public String goBackToLobby(HttpSession session) {
+
 		session.setAttribute("startGame", null);
 		session.setAttribute("opponent", null);
+		session.removeAttribute("game");
+		session.removeAttribute("player1");
+		session.removeAttribute("player2");
+
 		session.removeAttribute("startGame");
 		session.removeAttribute("playWith");
-
+		
 		return "redirect: Lobby";
 	}
 
 	@RequestMapping(value = "/Logout", method = RequestMethod.GET)
 	public String logout(HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
-		if(session == null || session.getAttribute("user") == null){
-			return "redirect: Login";
-		}
 		if (session != null) {
 			LOBBY.removeUser((String) session.getAttribute("username"), session);
 			session.invalidate();
