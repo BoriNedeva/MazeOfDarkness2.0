@@ -6,8 +6,19 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Register Form</title>
+<style>
+body{
+background-image: url("img\\mazeWallpaper.jpg");
+background-repeat:no-repeat;
+background-size:cover;
+
+color: white;
+
+}
+</style>
 </head>
-<body>
+<body background="mazeWallpaper.jpg">
+<div align="center" style = "margin-top: 50px">
 <form action="/MazeOfDarkness2.0/Register" method="POST">
 		Username:<br> <input type="text" name=username required maxlength="20">
 		<% 
@@ -53,7 +64,8 @@
 		<br>
 		<input type="submit" value="Register"><br>
 	</form>
-	<%  if(request.getAttribute("successfulRegistration") != null){
+	</div>
+	<% 
 		if(!session.isNew() && (Boolean)request.getAttribute("successfulRegistration"))
 		{
 			response.setContentType("text/html"); 
@@ -61,11 +73,10 @@
 			out.print("<script type=\"text/javascript\">alert('Successful Registration!'); location.href = '/MazeOfDarkness2.0/Login'</script>"); 
 			out.print("</head><body></body></html>"); 
 		}
-		else if(!session.isNew() && !(Boolean)request.getAttribute("successfulRegistration"))
+		else if(!session.isNew() && !(Boolean)request.getAttribute("successfulRegistration") && (Boolean)request.getAttribute("registrationTried"))
 		{
 			out.print("Unsuccessful registration! Please try again!");
 		}
-	}
 		%>
 </body>
 </html>

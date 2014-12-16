@@ -1,10 +1,6 @@
 package controllers;
 
-import java.io.PrintWriter;
-
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -12,7 +8,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.SessionAttributes;
 
 import player.UsersDAO;
 import utilities.ValidateData;
@@ -29,6 +24,7 @@ public class RegisterController {
 		model.addAttribute("existEmail", false);
 		model.addAttribute("equalsPasswords", false);
 		model.addAttribute("successfulRegistration", false);
+		model.addAttribute("registrationTried", false);
 		return "Register";
 	}
 
@@ -42,6 +38,7 @@ public class RegisterController {
 		model.addAttribute("wrongEmail", false);
 		model.addAttribute("existEmail", false);
 		model.addAttribute("equalsPasswords", false);
+		model.addAttribute("registrationTried", false);
 		model.addAttribute("successfulRegistration", false);
 		
 		if (ValidateData.validateNotEmpty(request.getParameter("username")) && ValidateData.validateNotEmpty(request.getParameter("password")) && ValidateData.validateNotEmpty(request.getParameter("repeatPassword")) && ValidateData.validateNotEmpty(request.getParameter("email"))) 
@@ -90,7 +87,7 @@ public class RegisterController {
 				
 				isSuccessful = usersDao.registerNewUser(request.getParameter("username"), request.getParameter("password"), request.getParameter("email"));
 				model.addAttribute("successfulRegistration", isSuccessful);
-				//areValidated = false;
+				model.addAttribute("registrationTried", true);
 			}
 		}
 		

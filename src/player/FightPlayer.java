@@ -34,12 +34,7 @@ public class FightPlayer extends Player {
 	}
 
 	public void setNumberOfMoves(int numberOfMoves) {
-			if(this.numberOfMoves + numberOfMoves >= -5){
 				this.numberOfMoves += numberOfMoves;
-			}
-			else{
-				this.numberOfMoves = -5;
-			}
 	}
 
 	public int getHealth() {
