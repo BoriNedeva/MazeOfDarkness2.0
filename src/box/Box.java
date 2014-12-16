@@ -4,14 +4,8 @@ import game.Coordinates;
 
 import java.util.ArrayList;
 import java.util.Random;
-
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-
-import cards.DespicableCard;
 import cards.ICard;
-import cards.Knife;
-import cards.WildCard;
+
 
 public abstract class Box implements IBox {
 

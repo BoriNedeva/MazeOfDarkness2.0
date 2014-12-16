@@ -21,7 +21,7 @@ public abstract class Player implements IPlayer {
 	Player(final String userName, final User user) {
 
 		this.userName = userName;
-		this.score = 0;
+		this.score = 150;
 		this.flashLight = 1;
 		this.hasWon = false;
 		this.user = user;
@@ -80,6 +80,7 @@ public abstract class Player implements IPlayer {
 	{
 		coords.setX(x);
 		coords.setY(y);
+		this.setScore(this.score - 1);
 	}
 
 	@Override
